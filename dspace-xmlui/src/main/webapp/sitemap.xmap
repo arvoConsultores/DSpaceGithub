@@ -202,7 +202,8 @@
                     <map:reader name="ConcatenationReader" src="org.dspace.app.xmlui.cocoon.ConcatenationReader"/>
                     <map:reader name="JQueryLoaderReader" src="org.dspace.app.xmlui.utils.JQueryLoaderReader"/>
                     <map:reader name="JSONControlledVocabularyReader" src="org.dspace.app.xmlui.cocoon.JSONControlledVocabularyReader"/>
-                                        
+                           
+                    <map:reader name="BibliographyReader" src="org.dspace.app.xmlui.aspect.artifactbrowser.BibliographyReader"/>             
                     <map:reader name="HandleResolverReader" src="org.dspace.app.xmlui.aspect.handle.HandleResolverReader"/>
                 </map:readers>
                 <map:actions>
@@ -243,7 +244,14 @@
                         <map:parameter name="outputBufferSize" value="8192"/>
                         <map:parameter name="expires" value="now"/>
 
-
+						<!-- Buttons -->
+						<map:match pattern="ris/handle/*/*">
+							<map:read type="BibliographyReader">
+								<map:parameter name="format" value="ris"/>
+								<map:parameter name="handle" value="{1}/{2}"/>
+							</map:read>			
+						</map:match>
+						
                         <!--
                                 Bitstreams for items that have a handle assigned. If the
                                 sequence parameter is given then that will be used to resolve the
@@ -396,7 +404,7 @@
                         <map:match pattern="discover/search/csv">
                                 <map:read type="SearchMetadataExportReader"/>
                         </map:match>
-						
+
                         <map:match pattern="handle/*/*/stats/csv">
                             <map:match type="StatisticsAuthorizedMatcher" pattern="READ">
                                 <map:read type="CSVOutputter"/>
