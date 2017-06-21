@@ -82,6 +82,22 @@
                 This contexts complies with OpenAIRE rules.
             </Description>
         </Context>
+        
+        <!--Contexto Sistema Nacional de Acceso Abierto-->
+		<Context baseurl="snaac" name="Snaac Context">
+			<!-- Date format, field prefixes, etc are ensured by the transformer -->
+			<Transformer ref="snaacTransformer"/>
+			<Filter ref="snaacFilter"/>
+			<!-- Just an alias, if fact it returns all items within the driver context -->
+			<Set ref="snaacSet" />
+			<!-- Metadata Formats -->
+			<Format ref="oaidc"/>
+			<Format ref="mets" />
+			<Format ref="didl" />
+			<Description>
+                This contexts complies with Snaac rules.
+            </Description>
+		</Context>
     </Contexts>
 
 
@@ -176,18 +192,79 @@
         <Transformer id="openaireTransformer">
             <XSLT>transformers/openaire.xsl</XSLT>
         </Transformer>
+        <Transformer id="snaacTransformer">
+			<XSLT>transformers/snaac.xsl</XSLT>
+		</Transformer>
     </Transformers>
 
 
     <Filters>
-        <!-- DRIVER filter for records returned by OAI-PMH.
-             By default, return an Item record:
-               * If a Title & Author field both exist
-               * AND a valid DRIVER Document Type exists
-               * AND Item is either publicly accessible OR Withdrawn (for tombstones)
-               * AND Driver "open access" condition is specified
-             This filter is only used in the DRIVER context ([oai]/driver)
-        -->
+        <CustomCondition id="titleExistsCondition">
+            <Class>org.dspace.xoai.filter.DSpaceMetadataExistsFilter</Class>
+            <Configuration>
+                <string name="field">dc.title</string>
+            </Configuration>
+        </CustomCondition>
+        
+		<CustomCondition id="descriptorexistsFilter">
+			<Class>org.dspace.xoai.filter.DSpaceMetadataExistsFilter</Class>
+			<Configuration>
+                <string name="field">dc.description</string>
+            </Configuration>
+		</CustomCondition>
+
+		<CustomCondition id="formatexistsFilter">
+			<Class>org.dspace.xoai.filter.DSpaceMetadataExistsFilter</Class>
+			<Configuration>
+                <string name="field">dc.format</string>
+            </Configuration>
+		</CustomCondition>
+
+        
+		<CustomCondition id="snaacdocumenttypeFilter">
+			<Class>org.dspace.xoai.filter.DSpaceAtLeastOneMetadataFilter</Class>
+			 <Configuration>
+                <string name="field">dc.type</string>
+                <string name="operator">ends_with</string>
+                 <list name="values">
+                    <string>article</string>
+                    <string>masterThesis</string>
+                    <string>doctoralThesis</string>
+                    <string>report</string>
+                </list>
+            </Configuration>
+		</CustomCondition>
+
+		<CustomCondition id="snaacversiontypeFilter">
+			<Class>org.dspace.xoai.filter.DSpaceAtLeastOneMetadataFilter</Class>
+			<Configuration>
+                <string name="field">dc.type.hasVersion</string>
+                <string name="operator">ends_with</string>
+                 <list name="values">
+                    <string>acceptedVersion</string>
+                    <string>draft</string>
+                    <string>publishedVersion</string>
+                    <string>submittedVersion</string>
+                    <string>updatedVersion</string>
+                </list>
+            </Configuration>
+		</CustomCondition>
+		
+		<CustomCondition id="snaacaccessFilter">
+			<Class>org.dspace.xoai.filter.DSpaceAtLeastOneMetadataFilter</Class>
+			<Configuration>
+                <string name="field">dc.rights.accessRights</string>
+                <string name="operator">contains</string>
+                 <list name="values">
+                    <string>openAccess</string>
+                    <string>closedAccess</string>
+                    <string>embargoedAccess</string>
+                    <string>restrictedAccess</string>
+                </list>
+            </Configuration>
+		</CustomCondition>
+		
+
         <Filter id="driverFilter">
             <Definition>
                 <And>
@@ -278,13 +355,60 @@
             </Definition>
         </Filter>
 
-        <!-- UKETD Filter for records returned by OAI-PMH.
-             By default, return an Item record:
-                * If it is a "thesis"
-
-             This filter is appended to any existing filter
-             when "metadataPrefix=uketd_dc" is specified.
-        -->
+		<Filter id="snaacFilter">
+            <Definition>
+             <And>
+                <LeftCondition>
+                <And>
+                    <LeftCondition>
+                        <And>
+                            <LeftCondition>
+                                <Custom ref="titleExistsCondition"/>
+                            </LeftCondition>
+                            <RightCondition>
+                                <Custom ref="authorExistsCondition"/>
+                            </RightCondition>
+                        </And>
+                    </LeftCondition>
+                    <RightCondition>
+                        <And>
+                            <LeftCondition>
+                                <Custom ref="descriptorexistsFilter"/>
+                            </LeftCondition>
+                            <RightCondition>
+                                <Custom ref="formatexistsFilter"/>
+                            </RightCondition>
+                        </And>
+                    </RightCondition>
+                </And>
+                </LeftCondition>
+                <RightCondition>
+                <And>
+                    <LeftCondition>
+                        <And>
+                            <LeftCondition>
+                                <Custom ref="snaacversiontypeFilter"/>
+                            </LeftCondition>
+                            <RightCondition>
+                                <Custom ref="snaacdocumenttypeFilter"/>
+                            </RightCondition>
+                        </And>
+                    </LeftCondition>
+                    <RightCondition>
+                        <And>
+                            <LeftCondition>
+                                <Custom ref="snaacaccessFilter"/>
+                            </LeftCondition>
+                            <RightCondition>
+                                <Custom ref="bitstreamAccessCondition"/>
+                            </RightCondition>
+                        </And>
+                    </RightCondition>
+                </And>
+                </RightCondition>
+              </And>
+            </Definition>
+        </Filter>
         <Filter id="uketdDcFilter">
             <Definition>
                 <Custom ref="thesisDocumentTypeCondition"/>
@@ -329,14 +453,6 @@
             </Configuration>
         </CustomCondition>
 
-        <!-- This condition determines if an Item has a "dc.title" -->
-        <CustomCondition id="titleExistsCondition">
-            <Class>org.dspace.xoai.filter.DSpaceMetadataExistsFilter</Class>
-            <Configuration>
-                <string name="field">dc.title</string>
-            </Configuration>
-        </CustomCondition>
-
         <!-- This condition determines if an Item has a "dc.type" field
              specifying one of the valid DRIVER document types. -->
         <CustomCondition id="driverDocumentTypeCondition">
@@ -371,12 +487,9 @@
         <CustomCondition id="driverAccessCondition">
             <Class>org.dspace.xoai.filter.DSpaceAtLeastOneMetadataFilter</Class>
             <Configuration>
-                <string name="field">dc.rights</string>
+                <string name="field">dc.rights.accessRights</string>
                 <string name="operator">contains</string>
-                <list>
-                    <string>open access</string>
-                    <string>openAccess</string>
-                </list>
+                <string name="value">openAccess</string>
             </Configuration>
         </CustomCondition>
 
@@ -398,7 +511,7 @@
         <CustomCondition id="openaireRelationCondition">
             <Class>org.dspace.xoai.filter.DSpaceAtLeastOneMetadataFilter</Class>
             <Configuration>
-                <string name="field">dc.relation</string>
+                <string name="field">dc.relation.projectID</string>
                 <string name="operator">starts_with</string>
                 <string name="value">info:eu-repo/grantAgreement/EC/FP</string>
             </Configuration>
@@ -416,5 +529,10 @@
             <Name>EC_fundedresources set</Name>
             <!-- Just an alias -->
         </Set>
+        <Set id="snaacSet">
+			<Spec>snaac</Spec>
+			<Name>Sistema Nacional de Acceso Abierto</Name>
+			<!-- Just an alias -->
+		</Set>
     </Sets>
 </Configuration>
