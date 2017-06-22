@@ -546,6 +546,8 @@
 	<message key="org.dspace.eperson.LDAPAuthentication.title">LDAP Authentication</message>
 	<message key="org.dspace.eperson.PasswordAuthentication.title">Password Authentication</message>
 	<message key="org.dspace.eperson.X509Authentication.title">Web Certificate Authentication</message>
+	<!-- AQUI -->
+	<message key ="org.dspace.eperson.ORCIDAuthentication.title">ORCID Authentication</message>
 
 	<!-- org.dspace.app.xmlui.eperson.FailedAuthentication -->
 	<message key="xmlui.EPerson.FailedAuthentication.BadCreds">The credentials provided are invalid.</message>
@@ -2502,4 +2504,5 @@
     <message key="xmlui.mirage2.choice-authority-control.loading">Loading...</message>
 
     <message key="xmlui.mirage2.item-list.thumbnail">Thumbnail</message>
+  
 </catalogue>

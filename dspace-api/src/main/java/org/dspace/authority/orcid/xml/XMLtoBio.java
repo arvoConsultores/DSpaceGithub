@@ -7,10 +7,11 @@
  */
 package org.dspace.authority.orcid.xml;
 
-import org.dspace.authority.orcid.model.Bio;
-import org.dspace.authority.orcid.model.BioExternalIdentifier;
-import org.dspace.authority.orcid.model.BioName;
-import org.dspace.authority.orcid.model.BioResearcherUrl;
+
+import org.orcid.jaxb.model.record_v2.Bio;
+import org.orcid.jaxb.model.record_v2.BioExternalIdentifier;
+import org.orcid.jaxb.model.record_v2.BioName;
+import org.orcid.jaxb.model.record_v2.BioResearcherUrl;
 import org.dspace.authority.util.XMLUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -18,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPathExpressionException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -89,7 +91,7 @@ public class XMLtoBio extends Converter {
             try {
                 Iterator<Node> iterator = XMLUtils.getNodeListIterator(xml, ORCID_BIO);
                 while (iterator.hasNext()) {
-                    Bio bio = convertBio(iterator.next());
+                	Bio bio = convertBio(iterator.next());
                     result.add(bio);
                 }
             } catch (XPathExpressionException e) {
@@ -103,7 +105,7 @@ public class XMLtoBio extends Converter {
     }
 
     private Bio convertBio(Node node) {
-        Bio bio = new Bio();
+    	Bio bio = new Bio();
 
         setOrcid(node,bio);
         setPersonalDetails(node, bio);

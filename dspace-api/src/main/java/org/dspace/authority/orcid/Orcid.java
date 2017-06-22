@@ -8,13 +8,13 @@
 package org.dspace.authority.orcid;
 
 import org.dspace.authority.AuthorityValue;
-import org.dspace.authority.orcid.model.Bio;
-import org.dspace.authority.orcid.model.Work;
 import org.dspace.authority.orcid.xml.XMLtoBio;
 import org.dspace.authority.orcid.xml.XMLtoWork;
 import org.dspace.authority.rest.RestSource;
 import org.apache.log4j.Logger;
 import org.dspace.utils.DSpace;
+import org.orcid.jaxb.model.message.Work;
+import org.orcid.jaxb.model.record_v2.Bio;
 import org.w3c.dom.Document;
 
 import java.net.URLEncoder;
@@ -73,7 +73,7 @@ public class Orcid extends RestSource {
         List<Bio> bios = queryBio(text, 0, max);
         List<AuthorityValue> authorities = new ArrayList<AuthorityValue>();
         for (Bio bio : bios) {
-            authorities.add(OrcidAuthorityValue.create(bio));
+            authorities.add(OrcidAuthorityValue_1.create(bio));
         }
         return authorities;
     }
@@ -81,6 +81,6 @@ public class Orcid extends RestSource {
     @Override
     public AuthorityValue queryAuthorityID(String id) {
         Bio bio = getBio(id);
-        return OrcidAuthorityValue.create(bio);
+        return OrcidAuthorityValue_1.create(bio);
     }
 }

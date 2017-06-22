@@ -167,9 +167,13 @@
     	</dependency>
         <!-- The Servlet API is also needed by the 'dspace oai' launcher.xml
              command. -->
-    	<dependency>
+    	<!-- <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
+    	</dependency> -->
+    	<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
     	</dependency>
     </dependencies>
 </project>

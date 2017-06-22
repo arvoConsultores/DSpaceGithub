@@ -35,6 +35,7 @@ registration, forgotten passwords, editing profiles, and changing passwords.
 			<map:transformer name="ProfileUpdated" src="org.dspace.app.xmlui.aspect.eperson.ProfileUpdated"/>
 			<map:transformer name="LoginChooser" src="org.dspace.app.xmlui.aspect.eperson.LoginChooser"/>
 			<map:transformer name="FailedAuthentication" src="org.dspace.app.xmlui.aspect.eperson.FailedAuthentication" />
+			<map:transformer name="OrcidAccessReceived" src="org.dspace.app.xmlui.aspect.eperson.OrcidAccessReceived" />
 			
 			</map:transformers>
 		
@@ -44,6 +45,8 @@ registration, forgotten passwords, editing profiles, and changing passwords.
 			<map:action name="LDAPAuthenticateAction" src="org.dspace.app.xmlui.aspect.eperson.LDAPAuthenticateAction"/>
 			<map:action name="UnAuthenticateAction" src="org.dspace.app.xmlui.aspect.eperson.UnAuthenticateAction"/>
 			<map:action name="LoginRedirect" src="org.dspace.app.xmlui.aspect.eperson.LoginRedirect" />
+			<map:action name="OrcidAction" src="org.dspace.app.xmlui.aspect.eperson.OrcidAction" />
+			<map:action name="GoogleAction" src="org.dspace.app.xmlui.aspect.eperson.GoogleAction" />
 		</map:actions>
 		
 		<map:selectors>
@@ -163,28 +166,46 @@ registration, forgotten passwords, editing profiles, and changing passwords.
             <map:serialize type="xml"/>
          </map:match>
          
-			<map:match pattern="shibboleth-login">
-				<map:act type="ShibbolethAction">
-					<!-- Login succeeded, request will be forwarded. -->
-					<map:serialize type="xml"/>
-				</map:act>
-				
-				<!-- Login failed, try again. Show them static content from xml file --> 
-				<map:transform type="FailedAuthentication" />  
+        <map:match pattern="orcid_access/**">
+			<map:act type="OrcidAction">
+				<!-- Login succeeded, request will be forwarded. -->
 				<map:serialize type="xml"/>
-			</map:match>
-			
-			<map:match pattern="ldap-login">
-				<map:act type="LDAPAuthenticateAction">
-					<!-- Login succeeded, request will be forwarded. -->
-					<map:serialize type="xml"/>
-				</map:act>
-				
-				<!-- Login failed, try again. --> 
-				<map:transform type="LDAPLogin"/>
+			</map:act>
+			<map:transform type="FailedAuthentication" />  
+			<map:serialize type="xml"/>
+		</map:match>
+		
+		<map:match pattern="google_access/**">
+			<map:act type="GoogleAction">
+				<!-- Login succeeded, request will be forwarded. -->
 				<map:serialize type="xml"/>
-			</map:match>
+			</map:act>
+			<map:transform type="FailedAuthentication" />  
+			<map:serialize type="xml"/>
+		</map:match>
+         
+		<map:match pattern="shibboleth-login">
+			<map:act type="ShibbolethAction">
+				<!-- Login succeeded, request will be forwarded. -->
+				<map:serialize type="xml"/>
+			</map:act>
+				
+			<!-- Login failed, try again. Show them static content from xml file --> 
+			<map:transform type="FailedAuthentication" />  
+			<map:serialize type="xml"/>
+		</map:match>
 			
+		<map:match pattern="ldap-login">
+			<map:act type="LDAPAuthenticateAction">
+				<!-- Login succeeded, request will be forwarded. -->
+				<map:serialize type="xml"/>
+			</map:act>
+				
+			<!-- Login failed, try again. --> 
+			<map:transform type="LDAPLogin"/>
+			<map:serialize type="xml"/>
+		</map:match>
+		
 			<!--
 					Log the user out. The UnAuthenticateAction can not fail and will 
 					always redirect the user to the DSpace homepage.

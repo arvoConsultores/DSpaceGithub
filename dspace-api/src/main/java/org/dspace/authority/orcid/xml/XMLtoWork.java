@@ -7,16 +7,48 @@
  */
 package org.dspace.authority.orcid.xml;
 
-import org.dspace.authority.orcid.model.*;
-import org.dspace.authority.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.xpath.XPathExpressionException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.orcid.jaxb.model.message.Citation;
+import org.orcid.jaxb.model.message.CitationType;
+import org.orcid.jaxb.model.message.Contributor;
+import org.orcid.jaxb.model.message.ContributorEmail;
+import org.orcid.jaxb.model.message.ContributorOrcid;
+import org.orcid.jaxb.model.message.ContributorRole;
+import org.orcid.jaxb.model.message.CreditName;
+import org.orcid.jaxb.model.message.Day;
+import org.orcid.jaxb.model.message.Month;
+import org.orcid.jaxb.model.message.PublicationDate;
+import org.orcid.jaxb.model.message.Source;
+import org.orcid.jaxb.model.message.Title;
+import org.orcid.jaxb.model.message.TranslatedTitle;
+import org.orcid.jaxb.model.message.Url;
+import org.orcid.jaxb.model.message.Work;
+import org.orcid.jaxb.model.message.WorkContributors;
+import org.orcid.jaxb.model.message.WorkExternalIdentifier;
+import org.orcid.jaxb.model.message.WorkExternalIdentifierId;
+import org.orcid.jaxb.model.message.WorkExternalIdentifierType;
+import org.orcid.jaxb.model.message.WorkExternalIdentifiers;
+import org.orcid.jaxb.model.message.WorkTitle;
+import org.orcid.jaxb.model.message.WorkType;
+import org.orcid.jaxb.model.message.Year;
+import org.orcid.jaxb.model.message.ContributorAttributeSequence;
+import org.orcid.jaxb.model.common_v2.ContributorAttributes;
+import org.dspace.authority.util.EnumUtils;
+import org.dspace.authority.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import javax.xml.xpath.XPathExpressionException;
-import java.util.*;
 
 /**
  *
@@ -115,12 +147,13 @@ public class XMLtoWork extends Converter {
 
     protected void setWorkSource(Node node, Work work) throws XPathExpressionException {
         String workSource = XMLUtils.getTextContent(node, WORK_SOURCE);
-        work.setWorkSource(workSource);
+        //work.setWorkSource(workSource);
+        work.setSource(new Source(workSource));
     }
 
     protected void setContributors(Node node, Work work) throws XPathExpressionException {
 
-        Set<Contributor> contributors = new HashSet<Contributor>();
+        List<Contributor> contributors = new ArrayList<Contributor>();
 
         Iterator<Node> iterator = XMLUtils.getNodeListIterator(node, CONTRIBUTOR);
         while (iterator.hasNext()) {
@@ -129,32 +162,40 @@ public class XMLtoWork extends Converter {
             String creditName = XMLUtils.getTextContent(nextContributorNode, CREDIT_NAME);
             String email = XMLUtils.getTextContent(nextContributorNode, CONTRIBUTOR_EMAIL);
 
-            Set<ContributorAttribute> contributorAttributes = new HashSet<ContributorAttribute>();
+            Set<ContributorAttributes> contributorAttributes = new HashSet<ContributorAttributes>();
             NodeList attributeNodes = XMLUtils.getNodeList(nextContributorNode, CONTRIBUTOR_ATTRIBUTES);
             Iterator<Node> attributesIterator = XMLUtils.getNodeListIterator(attributeNodes);
             while (attributesIterator.hasNext()) {
                 Node nextAttribute = attributesIterator.next();
 
                 String roleText = XMLUtils.getTextContent(nextAttribute, CONTRIBUTOR_ROLE);
-                ContributorAttributeRole role = EnumUtils.lookup(ContributorAttributeRole.class, roleText);
+                ContributorRole role = EnumUtils.lookup(ContributorRole.class, roleText);
 
                 String sequenceText = XMLUtils.getTextContent(nextAttribute, CONTRIBUTOR_SEQUENCE);
                 ContributorAttributeSequence sequence = EnumUtils.lookup(ContributorAttributeSequence.class, sequenceText);
 
-                ContributorAttribute attribute = new ContributorAttribute(role, sequence);
-                contributorAttributes.add(attribute);
+                //Contributor attribute = new ContributorAttribute(role, sequence);
+                //Contributor attribute = new Contributor(role, sequence);
+//                Contributor attribute = new Contributor();
+//                contributorAttributes.add(attribute);
             }
 
-            Contributor contributor = new Contributor(orcid, creditName, email, contributorAttributes);
+            //Contributor contributor = new Contributor(orcid, creditName, email, contributorAttributes);
+            Contributor contributor = new Contributor();
+            contributor.setContributorOrcid(new ContributorOrcid(orcid));
+            contributor.setCreditName(new CreditName(creditName));
+            contributor.setContributorEmail(new ContributorEmail(email));
+            ContributorAttributes attributes = new ContributorAttributes();
             contributors.add(contributor);
+            WorkContributors workContributor = new WorkContributors(contributors);
+            work.setWorkContributors(workContributor);
         }
-
-        work.setContributors(contributors);
     }
 
     protected void setUrl(Node node, Work work) throws XPathExpressionException {
         String url = XMLUtils.getTextContent(node, URL);
-        work.setUrl(url);
+        //work.setUrl(url);
+        work.setUrl(new Url(url));
     }
 
     protected void setExternalIdentifiers(Node node, Work work) throws XPathExpressionException {
@@ -168,8 +209,13 @@ public class XMLtoWork extends Converter {
 
             String id = XMLUtils.getTextContent(work_external_identifier, WORK_EXTERNAL_IDENTIFIER_ID);
 
-            WorkExternalIdentifier externalID = new WorkExternalIdentifier(type, id);
-            work.setWorkExternalIdentifier(externalID);
+//            WorkExternalIdentifiers externalID;// = new WorkExternalIdentifier(type, id);
+//            externalID.setWorkExternalIdentifierType(type);
+//            WorkExternalIdentifiers external = new WorkExternalIdentifiers();
+//            externalID.setWorkExternalIdentifiersId(new WorkExternalIdentifiers(id));
+//            work.setWorkExternalIdentifiers(externalID);
+            WorkExternalIdentifiers externalID = new WorkExternalIdentifiers();
+            work.setWorkExternalIdentifiers(externalID);
         }
     }
 
@@ -179,12 +225,20 @@ public class XMLtoWork extends Converter {
         String month = XMLUtils.getTextContent(node, MONTH);
         String day = XMLUtils.getTextContent(node, DAY);
 
-        String publicationDate = year;
+//        String publicationDate = year;
+//        if (StringUtils.isNotBlank(month)) {
+//            publicationDate += "-" + month;
+//            if (StringUtils.isNotBlank(day)) {
+//                publicationDate += "-" + day;
+//            }
+//        }
+        PublicationDate publicationDate = new PublicationDate();
+        publicationDate.setYear(new Year(Integer.parseInt(year)));
         if (StringUtils.isNotBlank(month)) {
-            publicationDate += "-" + month;
-            if (StringUtils.isNotBlank(day)) {
-                publicationDate += "-" + day;
-            }
+        	publicationDate.setMonth(new Month(Integer.parseInt(month)));
+        	if (StringUtils.isNotBlank(day)) {
+        		publicationDate.setDay(new Day(Integer.parseInt(day)));
+        	}
         }
 
         work.setPublicationDate(publicationDate);
@@ -205,15 +259,17 @@ public class XMLtoWork extends Converter {
 
         String citationtext = XMLUtils.getTextContent(node, CITATION);
 
-        Citation citation = new Citation(type, citationtext);
-        work.setCitation(citation);
+        Citation citation = new Citation();
+        citation.setWorkCitationType(type);
+        citation.setCitation(citationtext);
+        work.setWorkCitation(citation);
     }
 
     protected void setDescription(Node node, Work work) throws XPathExpressionException {
 
         String description = null;
         description = XMLUtils.getTextContent(node, SHORT_DESCRIPTION);
-        work.setDescription(description);
+        work.setShortDescription(description);
     }
 
     protected void setTitle(Node node, Work work) throws XPathExpressionException {
@@ -225,14 +281,17 @@ public class XMLtoWork extends Converter {
         Map<String, String> translatedTitles = new HashMap<String, String>();
         NodeList nodeList = XMLUtils.getNodeList(node, TRANSLATED_TITLES);
         Iterator<Node> iterator = XMLUtils.getNodeListIterator(nodeList);
+        WorkTitle workTitle= new WorkTitle();//(title, subtitle, translatedTitles);
+        workTitle.setTitle(new Title(title));
         while (iterator.hasNext()) {
             Node languageNode = iterator.next();
             String language = XMLUtils.getTextContent(languageNode, TRANSLATED_TITLES_LANGUAGE);
             String translated_title = XMLUtils.getTextContent(languageNode, ".");
             translatedTitles.put(language, translated_title);
+            TranslatedTitle trans = new TranslatedTitle(translated_title);
+            workTitle.setTranslatedTitle(trans);
         }
-
-        WorkTitle workTitle = new WorkTitle(title, subtitle, translatedTitles);
+        
         work.setWorkTitle(workTitle);
     }
 

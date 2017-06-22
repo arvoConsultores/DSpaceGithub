@@ -8,11 +8,13 @@
 package org.dspace.services.email;
 
 import java.util.Properties;
+
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
 import org.dspace.kernel.mixins.InitializedService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.EmailService;

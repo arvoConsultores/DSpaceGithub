@@ -49,7 +49,7 @@
             </modules>
         </profile>
         <!-- Note:- The LNI module is not built by default and is considered deprecated.
-            To build it activate the profile with '-Pdspace-lni'. -->
+            To build it activate the profile with '-Pdspace-lni'.
         <profile>
             <id>dspace-lni</id>
             <activation>
@@ -113,7 +113,7 @@
             <modules>
                 <module>swordv2</module>
             </modules>
-        </profile>
+        </profile> -->
         <profile>
             <id>dspace-solr</id>
             <activation>
@@ -125,8 +125,8 @@
                 <module>solr</module>
             </modules>
         </profile>
-        <profile>
-            <id>dspace-oai</id>
+     <!--   <profile>
+          <id>dspace-oai</id>
             <activation>
                 <file>
                     <exists>oai/pom.xml</exists>
@@ -135,12 +135,12 @@
             <modules>
                 <module>oai</module>
             </modules>
-        </profile>
+        </profile> -->   
 
-        <profile>
-            <!--Activates mirage2 on the presence of the property mirage2.on with any value e.g. mvn clean package -Dmirage2.on=on
+      <!--     <profile>
+         Activates mirage2 on the presence of the property mirage2.on with any value e.g. mvn clean package -Dmirage2.on=on
                 Note the absence of activeByDefault. This module is optional. Also activeByDefault only works when no other profiles are active.
-            -->
+            
             <id>mirage2</id>
             <activation>
                 <property>
@@ -150,6 +150,6 @@
             <modules>
                 <module>xmlui-mirage2</module>
             </modules>
-        </profile>
+        </profile>-->
     </profiles>
 </project>

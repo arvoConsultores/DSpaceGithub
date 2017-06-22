@@ -106,8 +106,7 @@ public class ShibbolethAction extends AbstractAction
         }
         catch (SQLException sqle)
         {
-            throw new PatternException("Unable to perform Shibboleth authentication",
-                    sqle);
+            throw new PatternException("Unable to perform Shibboleth authentication", sqle);
         }
         
         return null;
