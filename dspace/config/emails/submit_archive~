@@ -1,0 +1,21 @@
+# Email de Item Archivado
+#
+# {0}  Title of submission
+# {1}  Name of collection
+# {2}  handle 
+#
+Subject: DSpace: Envío aprobado y archivado
+
+Ha enviado: {0}
+
+A la colección: {1}
+
+Su envío ha sido aprobado y archivado en el repositorio,
+y le ha sido asignado el siguiente identificador:
+{2}
+
+Por favor, utilice este identificador cuando cite su envío.
+
+¡Muchas gracias!
+
+Biblioteca de la Universidad Francisco de Vitoria

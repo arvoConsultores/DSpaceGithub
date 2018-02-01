@@ -1,0 +1,12 @@
+﻿# E-mail sent to DSpace users when new items appear in collections they are
+# subscribed to
+#
+# Parameters: {0} is the details of the new collections and items
+# See org.dspace.core.Email for information on the format of this file.
+#
+Subject: Subcripción a DSpace
+Hay nuevos objetos disponibles en las colecciones en las que está suscrito:
+
+{0}
+
+Biblioteca de la Universidad Francisco de Vitoria

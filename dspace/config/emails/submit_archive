@@ -1,21 +1,21 @@
-# Item Archived email message
+# Email de aviso de objeto archivado
 #
 # {0}  Title of submission
 # {1}  Name of collection
 # {2}  handle 
 #
-Subject: DSpace: Submission Approved and Archived 
+Subject: DSpace: Envío aprobado y archivado
 
-You submitted: {0}
+Ha enviado: {0}
 
-To collection: {1}
+A la colección: {1}
 
-Your submission has been accepted and archived in DSpace,
-and it has been assigned the following identifier:
+Su envío ha sido aprobado y archivado en el repositorio,
+y le ha sido asignado el siguiente identificador:
 {2}
 
-Please use this identifier when citing your submission.
+Por favor, utilice este identificador cuando cite su envío.
 
-Many thanks!
+¡Muchas gracias!
 
-DSpace
+Biblioteca de la Universidad Francisco de Vitoria

@@ -1,0 +1,12 @@
+openAccess
+restrictedAccess
+embargoedAccess
+closedAccess
+
+open access = openAccess
+restrict access = restrictedAccess
+restrict access (1 Year) = embargoedAccess
+restrict access (2 Year) = embargoedAccess
+restrict access (3 Year) = embargoedAccess
+restrict access (2 Years) = embargoedAccess
+restrict access (3 Years) = embargoedAccess

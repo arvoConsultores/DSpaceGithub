@@ -1,0 +1,25 @@
+# Document Types
+article
+Bachelor thesis
+bachelorThesis
+masterThesis
+doctoralThesis
+book
+bookPart
+review
+conferenceObject
+lecture
+workingPaper
+preprint
+report
+annotation
+contributionToPeriodical
+patent
+other
+
+# Document Types
+draft
+submittedVersion
+acceptedVersion
+publishedVersion
+updatedVersion

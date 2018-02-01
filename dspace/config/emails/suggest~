@@ -1,0 +1,27 @@
+# Email enviado con la información incluida en un formulario de sugerencia.
+#
+# Parameters: {0} recipient name
+#             {1} sender name
+#             {2} repository name
+#             {3} item title
+#             {4} item handle URI
+#             {5} item local URL - may be used in lieu of {4} if not using handle server
+#             {6} collection name
+#             {7} sender message 
+# See org.dspace.core.Email for information on the format of this file.
+#
+Subject: Un tema de interés desde DSpace
+
+Hola {0}:
+
+{1} solicita que le enviemos este email con respecto a un objeto disponible en {2}.
+
+
+Título: {3}
+Lugar: {5}
+En colección: {6}
+Mensaje personal: {7}
+
+El sistema de repositorio digital DSpace captura, almacena, indexa, preserva y distribuye contenidos digitales.
+Para más información visite la página www.dspace.org.
+

@@ -174,22 +174,22 @@
      <!--<step id="sample"/>-->
           
      <!--Step 1 will be to gather initial information-->
-	  <step>
+	<!--<step>
 	    <heading>submit.progressbar.initial-questions</heading>
 		<processing-class>org.dspace.submit.step.InitialQuestionsStep</processing-class>
 		<jspui-binding>org.dspace.app.webui.submit.step.JSPInitialQuestionsStep</jspui-binding>   	    
 		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.InitialQuestionsStep</xmlui-binding>
 	    <workflow-editable>true</workflow-editable>
-	  </step>
+	  </step> -->
 	
 	<!--If you disable the initial questions step you should insert the -->
 	<!--SkipInitialQuestionsStep below, to enable proper processing of  -->
 	<!--input-forms configuration                                       -->
-	<!-- 
+	 
 	<step>
 		<processing-class>org.dspace.submit.step.SkipInitialQuestionsStep</processing-class>
 	</step>
-    -->  
+      
       
       <!--Step 2 will be to Describe the item.-->
       <step>
@@ -220,7 +220,7 @@
 
       <!--Step 5 will be to select a Creative Commons License-->
       <!-- Uncomment this step to allow the user to select a Creative Commons license -->
-       <!--
+      
       <step>
         <heading>submit.progressbar.CClicense</heading>
         <processing-class>org.dspace.submit.step.CCLicenseStep</processing-class>
@@ -228,9 +228,8 @@
 		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.CCLicenseStep</xmlui-binding>
 		<workflow-editable>false</workflow-editable>
       </step>
-      -->
 
-      <!--Step 6 will be to Sign off on the License-->
+      <!--Step 6 will be to Sign off on the License-->    
       <step>
         <heading>submit.progressbar.license</heading>
         <processing-class>org.dspace.submit.step.LicenseStep</processing-class>
@@ -238,9 +237,7 @@
 		<xmlui-binding>org.dspace.app.xmlui.aspect.submission.submit.LicenseStep</xmlui-binding>
 		<workflow-editable>false</workflow-editable>
       </step>
-
-
-     
+       
    </submission-process>
 
  </submission-definitions>

@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-parent</artifactId>
-		<version>1.8.4-SNAPSHOT</version>
+		<version>1.8.4</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -40,7 +40,7 @@
                 <module>xmlui</module>
             </modules>
         </profile>
-        <profile>
+       <!--  <profile>
             <id>dspace-lni</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -48,7 +48,7 @@
             <modules>
                 <module>lni</module>
             </modules>
-        </profile>
+        </profile>-->
         <profile>
             <id>dspace-oai</id>
             <activation>
@@ -58,7 +58,7 @@
                 <module>oai</module>
             </modules>
         </profile>
-        <profile>
+        <!-- <profile>
             <id>dspace-jspui</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -66,7 +66,7 @@
             <modules>
                 <module>jspui</module>
             </modules>
-        </profile>
+        </profile>-->
         <profile>
             <id>dspace-sword</id>
             <activation>
@@ -92,6 +92,15 @@
             </activation>
             <modules>
                 <module>solr</module>
+            </modules>
+        </profile>
+         <profile>
+            <id>dspace-oaiextended</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>oaiextended</module>
             </modules>
         </profile>
     </profiles>

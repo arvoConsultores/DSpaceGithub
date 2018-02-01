@@ -1,4 +1,4 @@
-# Workflow curation task notification email message
+# Email de notificación de tareas de curación
 #
 # {0}  Title of submission
 # {1}  Name of collection
@@ -7,17 +7,17 @@
 # {4}  Task result
 # {5}  Workflow action taken
 #
-Subject: DSpace: Curation Task Report
+Subject: DSpace: Reporte de Tareas de Curación
 
-Title:         {0}
-Collection:    {1}
-Submitted by:  {2}
+Título:         {0}
+Colección:    {1}
+Enviado por:  {2}
 
-Curation task {3} has been performed
-with the following result:
+Tarea de Curación {3} realizada
+con el siguiente resultado:
 
 {4}
 
-Action taken on the submission: {5}
+Medidas adoptadas en el envío: {5}
 
-DSpace
+Biblioteca de la Universidad Francisco de Vitoria

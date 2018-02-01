@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<virtualSets>
+	<set>
+		<setSpec>driver</setSpec>
+		<setName>Driver Set</setName>
+	</set>
+	<set>
+		<setSpec>ec_fundedresources</setSpec>
+		<setName>EC Funded Resources Set</setName>
+	</set>
+</virtualSets>

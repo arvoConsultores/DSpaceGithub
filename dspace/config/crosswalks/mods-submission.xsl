@@ -18,8 +18,8 @@ http://cwspace.mit.edu/docs/WorkActivity/Metadata/Crosswalks/MODS-2-DIM/MODS-2-D
 http://cwspace.mit.edu/docs/WorkActivity/Metadata/Crosswalks/MODS-2-DIM/CSAIL-DIMfromMODS.xml
 
  Author:   William Reilly
- Revision: $Revision$
- Date:     $Date$
+ Revision: $Revision: 3705 $
+ Date:     $Date: 2009-04-11 12:02:24 -0500 (Sat, 11 Apr 2009) $
 
 
      **************************************************

@@ -1,0 +1,15 @@
+﻿# E-mail sent to DSpace users when they register for an account
+#
+# Parameters: {0} is expanded to a special registration URL
+#
+# See org.dspace.core.Email for information on the format of this file.
+#
+Subject: Registro de cuenta en DSpace
+Para completar el registro de la cuenta de DSpace, por favor, pinche en el siguiente enlace:
+
+  {0}
+
+Si necesita ayuda con su cuenta, contacte con:
+sistemas@gestion.ufv.es
+
+Biblioteca de la Universidad Francisco de Vitoria

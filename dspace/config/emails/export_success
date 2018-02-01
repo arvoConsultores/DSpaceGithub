@@ -1,18 +1,17 @@
-# Email sent to DSpace users when they successfully export an item or collection.
+# Email enviado a los usuarios de DSpace cuando exportan satisfactoriamente un item o una colección.
 #
 # Parameters: {0} is expanded to a special URL
 #             {1} configurable time (hours) an export file will be kept
 #
 # See org.dspace.core.Email for information on the format of this file.
 #
-Subject: DSpace - Item export requested is ready for download
-The item export you requested from the repository is now ready for download.
+Subject: DSpace - La exportación solicitada está lista para su descarga
+La exportación solicitada está lista para su descarga.
 
-You may download the compressed file using the following link:
+Puede descargar el fichero comprimido utilizando el siguiente enlace:
 {0}
 
-This file will remain available for at least {1} hours.  
+Este fichero estará disponible al menos durante {1} hora.  
 
-
-The DSpace Team
+Biblioteca de la Universidad Francisco de Vitoria
 

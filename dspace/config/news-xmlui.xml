@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <document xmlns="http://di.tamu.edu/DRI/1.0/" xmlns:i18n="http://apache.org/cocoon/i18n/2.1" version="1.1">
-<body>
-<div id="file.news.div.news" n="news" rend="primary">
-<head>DSpace/Manakin Repository</head>
-<p>Welcome to the new Manakin interface to the DSpace digital repository.  DSpace is a digital service that collects, preserves, and distributes digital material. Repositories are important tools for preserving an organization&apos;s legacy; they facilitate digital preservation and scholarly communication.</p>
-</div>
-</body>
-<options/>
-<meta>
-<userMeta/>
-<pageMeta/>
-<repositoryMeta/>
-</meta>
+	<body>
+		<div id="file.news.div.news" n="news" rend="primary">
+			<div id="welcome">
+				<p id="title">Bienvenidos</p>
+				<p>Bienvenidos al Depósito Digital Francisco de Vitoria, el Repositorio Institucional de la Universidad Francisco de Vitoria. El DDFV es un repositorio de documentos digitales, cuyo objetivo es reunir, archivar y preservar la producción intelectual resultante de la actividad académica e investigadora de nuestra comunidad universitaria, y ofrecer acceso abierto a dicha producción.</p>
+			</div>
+			<div id="library">
+				<p id="title">Biblioteca de la UFV</p>
+				<p>Este repositorio está gestionado y coordinado por la Biblioteca de la Universidad Francisco de Vitoria. Más información en:</p>
+				<xref target="http://www.ufv.es/biblioteca" rend="_blank">Enlace a la web de la Biblioteca</xref>
+				<xref target="http://opac.ufv.es/catalogo" rend="_blank">Nuestro catálogo</xref>
+			</div>
+			<div id="more">
+				<p id="title">Mucho más</p>
+				<xref target="mailto:biblioteca@ufv.es?subject=Solicitud+de+información+desde+DDFV">Pregunta a la biblioteca</xref>
+			</div>
+		</div>
+	</body>
+	<options/>
+	<meta>
+		<userMeta/>
+		<pageMeta/>
+		<repositoryMeta/>
+	</meta>
 </document>

@@ -1,0 +1,23 @@
+# Email de notificación de tareas de curación
+#
+# {0}  Title of submission
+# {1}  Name of collection
+# {2}  Submitter's name
+# {3}  Name of task operating
+# {4}  Task result
+# {5}  Workflow action taken
+#
+Subject: DSpace: Reporte de Tareas de Curación
+
+Título:         {0}
+Colección:    {1}
+Enviado por:  {2}
+
+Tarea de Curación {3} realizada
+con el siguiente resultado:
+
+{4}
+
+Medidas adoptadas en el envío: {5}
+
+DSpace

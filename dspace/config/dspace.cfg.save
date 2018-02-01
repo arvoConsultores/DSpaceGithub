@@ -1,0 +1,506 @@
+#
+# DSpace Configuration
+#
+# NOTE: The DSpace Configuration File is separated into several sections:
+#  * General Configurations
+#  * JSPUI & XMLUI Configurations
+#  * JSPUI Specific Configurations
+#  * XMLUI Specific Configurations
+#
+# Revision: $Revision: 6830 $
+#
+# Date:     $Date: 2011-10-28 18:30:14 -0500 (Fri, 28 Oct 2011) $
+#
+
+
+#---------------------------------------------------------------#
+#------------------GENERAL CONFIGURATIONS-----------------------#
+#---------------------------------------------------------------#
+# These configs are used by underlying DSpace API, and are      #
+# therefore applicable to all interfaces                        #
+#---------------------------------------------------------------#
+##### Basic information ######
+
+# DSpace installation directory
+dspace.dir = /home/dspace/dspace_i
+
+# DSpace host name - should match base URL.  Do not include port number
+dspace.hostname = localhost
+
+# DSpace base host URL.  Include port number etc.
+dspace.baseUrl = http://localhost:8080
+
+# DSpace base URL.  Include port number etc., but NOT trailing slash
+# Change to xmlui if you wish to use the xmlui as the default, or remove
+# "/jspui" and set webapp of your choice as the "ROOT" webapp in
+# the servlet engine.
+dspace.url = ${dspace.baseUrl}/xmlui
+
+# Name of the site
+dspace.name = DSpace FDV 
+
+##### Database settings #####
+
+# Database name ("oracle", or "postgres")
+#db.name = postgres
+db.name = postgres
+#db.name = oracle
+
+# URL for connecting to database
+#db.url = jdbc:postgresql://localhost:5432/dspace
+db.url = jdbc:postgresql://localhost:5432/dspace
+
+# JDBC Driver
+#db.driver = org.postgresql.Driver
+db.driver = org.postgresql.Driver
+
+# Database username and password
+#db.username = dspace
+#db.password = dspace
+db.username = dspace
+db.password = D3pace012
+
+# Schema name - if your database contains multiple schemas, you can avoid problems with
+# retrieving the definitions of duplicate object names by specifying
+# the schema name here that is used for DSpace by uncommenting the following entry
+# db.schema =
+
+# Connection pool parameters
+
+# Maximum number of DB connections in pool
+db.maxconnections = 30
+
+# Maximum time to wait before giving up if all connections in pool are busy (milliseconds)
+db.maxwait = 5000
+
+# Maximum number of idle connections in pool (-1 = unlimited)
+db.maxidle = -1
+
+# Determine if prepared statement should be cached. (default is true)
+db.statementpool = true
+
+# Specify a name for the connection pool (useful if you have multiple applications sharing Tomcat's dbcp)
+# If not specified, defaults to 'dspacepool'
+# db.poolname = dspacepool
+
+##### Email settings ######
+
+# SMTP mail server
+mail.server = mail.arvo.es
+
+# SMTP mail server authentication username and password (if required)
+mail.server.username = arvo@arvo.es
+mail.server.password = arvo007
+
+# SMTP mail server alternate port (defaults to 25)
+mail.server.port = 25
+
+# From address for mail
+mail.from.address = arvo@arvo.es
+
+# Currently limited to one recipient!
+feedback.recipient = arvo@arvo.es
+
+# General site administration (Webmaster) e-mail
+mail.admin = arvo@arvo.es
+
+# Recipient for server errors and alerts
+# alert.recipient = email-address-here
+
+# Recipient for new user registration emails
+# registration.notify = email-address-here
+
+# Set the default mail character set. This may be over ridden by providing a line
+# inside the email template "charset: <encoding>", otherwise this default is used.
+mail.charset = UTF-8
+
+# A comma separated list of hostnames that are allowed to refer browsers to email forms.
+# Default behaviour is to accept referrals only from dspace.hostname
+#mail.allowed.referrers = localhost
+
+# Pass extra settings to the Java mail library. Comma separated, equals sign between
+# the key and the value.
+#mail.extraproperties = mail.smtp.socketFactory.port=465, \
+#                       mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory, \
+#                       mail.smtp.socketFactory.fallback=false
+
+# An option is added to disable the mailserver. By default, this property is set to false
+# By setting mail.server.disabled = true, DSpace will not send out emails.
+# It will instead log the subject of the email which should have been sent
+# This is especially useful for development and test environments where production data is used when testing functionality.
+#mail.server.disabled = false
+
+# Default language for metadata values
+default.language = spa
+
+
+##### File Storage ######
+
+# Asset (bitstream) store number 0 (zero)
+assetstore.dir = ${dspace.dir}/assetstore
+
+# Specify extra asset stores like this, counting from 1 upwards:
+# assetstore.dir.1 = /second/assetstore
+# assetstore.dir.2 = /third/assetstore
+
+# Specify the number of the store to use for new bitstreams with this property
+# The default is 0 (zero) which corresponds to the 'assetstore.dir' above
+# assetstore.incoming = 1
+
+
+##### SRB File Storage #####
+
+# The same 'assetstore.incoming' property is used to support the use of SRB
+# (Storage Resource Broker - see http://www.sdsc.edu/srb/) as an _optional_
+# replacement of or supplement to conventional file storage. DSpace will work
+# with or without SRB and full backward compatibility is maintained.
+#
+# The 'assetstore.incoming' property is an integer that references where _new_
+# bitstreams will be stored.  The default (say the starting reference) is zero.
+# The value will be used to identify the storage where all new bitstreams will
+# be stored until this number is changed.  This number is stored in the
+# Bitstream table (store_number column) in the DSpace database, so older
+# bitstreams that may have been stored when 'asset.incoming' had a different
+# value can be found.
+#
+# In the simple case in which DSpace uses local (or mounted) storage the
+# number can refer to different directories (or partitions).  This gives DSpace
+# some level of scalability.  The number links to another set of properties
+# 'assetstore.dir', 'assetstore.dir.1' (remember zero is default),
+# 'assetstore.dir.2', etc., where the values are directories.
+#
+# To support the use of SRB DSpace uses this same scheme but broadened to
+# support:
+# - using SRB instead of the local filesystem
+# - using the local filesystem (native DSpace)
+# - using a mix of SRB and local filesystem
+#
+# In this broadened use the 'asset.incoming' integer will refer one of the
+# following storage locations
+# - a local filesystem directory (native DSpace)
+# - a set of SRB account parameters (host, port, zone, domain, username,
+#       password, home directory, and resource)
+#
+# Should the be any conflict, like '2' refering to a local directory and
+# to a set of SRB parameters, the program will select the local directory.
+#
+# If SRB is chosen from the first install of DSpace, it is suggested that
+# 'assetstore.dir' (no integer appended) be retained to reference a local
+# directory (as above under File Storage) because build.xml uses this value
+# to do a mkdir. In this case, 'assetstore.incoming' can be set to 1 (i.e.
+# uncomment the line in File Storage above) and the 'assetstore.dir' will not
+# be used.
+#
+# Here is an example set of SRB parameters:
+# Assetstore 1 - SRB
+#srb.host.1 = mysrbmcathost.myu.edu
+#srb.port.1 = 5544
+#srb.mcatzone.1 = mysrbzone
+#srb.mdasdomainname.1 = mysrbdomain
+#srb.defaultstorageresource.1 = mydefaultsrbresource
+#srb.username.1 = mysrbuser
+#srb.password.1 = mysrbpassword
+#srb.homedirectory.1 = /mysrbzone/home/mysrbuser.mysrbdomain
+#srb.parentdir.1 = mysrbdspaceassetstore
+#
+# Assetstore n, n+1, ...
+# Follow same pattern as for assetstores above (local or SRB)
+
+
+##### Logging configuration #####
+
+# Override default log4j configuration
+# you may provide your own configuration here, existing
+# alternatives are:
+# log.init.config = ${dspace.dir}/config/log4j.xml
+# log.init.config = ${dspace.dir}/config/log4j-console.properties
+
+log.init.config = ${dspace.dir}/config/log4j.properties
+
+# Where to put the logs (used in configuration only)
+log.dir = ${dspace.dir}/log
+
+# If enabled, the logging and the solr statistics system will look for
+# an X-Forward header. If it finds it, it will use this for the user IP Address
+# useProxies = true
+
+
+##### Search settings #####
+
+# Where to put search index files
+search.dir = ${dspace.dir}/search
+
+# Higher values of search.max-clauses will enable prefix searches to work on
+# large repositories
+# search.max-clauses = 2048
+
+# Which Lucene Analyzer implementation to use.  If this is omitted or
+# commented out, the standard DSpace analyzer (designed for English)
+# is used by default.
+# search.analyzer = org.dspace.search.DSAnalyzer
+
+# Non-Stemming analyzer.  Does not "stem" words/terms. When using this analyzer,
+# a search for "wellness" will always return items matching "wellness" and not "well".
+# However, similarly a search for "experiments" will only return objects matching 
+# "experiments" and not "experiment" or "experimenting".
+# search.analyzer = org.dspace.search.DSNonStemmingAnalyzer
+
+# Chinese analyzer
+# search.analyzer = org.apache.lucene.analysis.cn.ChineseAnalyzer
+
+# Boolean search operator to use, current supported values are OR and AND
+# If this config item is missing or commented out, OR is used
+# AND requires all search terms to be present
+# OR requires one or more search terms to be present
+search.operator = OR
+
+
+##### Search indexing settings #####
+
+# Maximum number of terms indexed for a single field in Lucene.
+# Default is 10,000 words - often not enough for full-text indexing.
+# If you change this, you'll need to re-index for the change
+# to take effect on previously added items.
+# -1 = unlimited (Integer.MAX_VALUE)
+search.maxfieldlength = 10000
+
+
+##### Fields to Index for Search #####
+
+# DC metadata elements.qualifiers to be indexed for search
+# format: - search.index.[number] = [search field]:element.qualifier
+#         - * used as wildcard
+
+###      changing these will change your search results,     ###
+###  but will NOT automatically change your search displays  ###
+
+search.index.1 = author:dc.contributor.*
+search.index.2 = author:dc.creator.*
+search.index.3 = title:dc.title.*
+search.index.4 = keyword:dc.subject.*
+search.index.5 = abstract:dc.description.abstract
+search.index.6 = author:dc.description.statementofresponsibility
+#search.index.7 = series:dc.relation.ispartofseries
+search.index.7 = abstract:dc.description.tableofcontents
+#search.index.9 = mime:dc.format.mimetype
+#search.index.10 = sponsor:dc.description.sponsorship
+search.index.8 = identifier:dc.identifier.*
+search.index.9 = language:dc.language.iso
+
+
+
+##### Handle settings ######
+
+# Canonical Handle URL prefix
+#
+# By default, DSpace is configured to use http://hdl.handle.net/
+# as the canonical URL prefix when generating dc.identifier.uri
+# during submission, and in the 'identifier' displayed in JSPUI
+# item record pages.
+#
+# If you do not subscribe to CNRI's handle service, you can change this
+# to match the persistent URL service you use, or you can force DSpace
+# to use your site's URL, eg.
+#handle.canonical.prefix = ${dspace.url}/handle/
+#
+# Note that this will not alter dc.identifer.uri metadata for existing
+# items (only for subsequent submissions), but it will alter the URL 
+# in JSPUI's 'identifier' message on item record pages for existing items.
+#
+# If omitted, the canonical URL prefix will be http://hdl.handle.net/
+handle.canonical.prefix = http://hdl.handle.net/
+
+# CNRI Handle prefix
+handle.prefix = 10641
+
+# Directory for installing Handle server files
+handle.dir = ${dspace.dir}/handle-server
+
+##### Authorization system configuration - Delegate ADMIN #####
+
+# COMMUNITY ADMIN configuration
+# subcommunities and collections
+#core.authorization.community-admin.create-subelement = true
+#core.authorization.community-admin.delete-subelement = true
+# his community
+#core.authorization.community-admin.policies = true
+#core.authorization.community-admin.admin-group = true
+# collections in his community
+#core.authorization.community-admin.collection.policies = true
+#core.authorization.community-admin.collection.template-item = true
+#core.authorization.community-admin.collection.submitters = true
+#core.authorization.community-admin.collection.workflows = true
+#core.authorization.community-admin.collection.admin-group = true
+# item owned by collections in his community
+#core.authorization.community-admin.item.delete = true
+#core.authorization.community-admin.item.withdraw = true
+#core.authorization.community-admin.item.reinstatiate = true
+#core.authorization.community-admin.item.policies = true
+# also bundle...
+#core.authorization.community-admin.item.create-bitstream = true
+#core.authorization.community-admin.item.delete-bitstream = true
+#core.authorization.community-admin.item-admin.cc-license = true
+
+# COLLECTION ADMIN
+#core.authorization.collection-admin.policies = true
+#core.authorization.collection-admin.template-item = true
+#core.authorization.collection-admin.submitters = true
+#core.authorization.collection-admin.workflows = true
+#core.authorization.collection-admin.admin-group = true
+# item owned by his collection
+#core.authorization.collection-admin.item.delete = true
+#core.authorization.collection-admin.item.withdraw = true
+#core.authorization.collection-admin.item.reinstatiate = true
+#core.authorization.collection-admin.item.policies = true
+# also bundle...
+#core.authorization.collection-admin.item.create-bitstream = true
+#core.authorization.collection-admin.item.delete-bitstream = true
+#core.authorization.collection-admin.item-admin.cc-license = true
+
+# ITEM ADMIN
+#core.authorization.item-admin.policies = true
+# also bundle...
+#core.authorization.item-admin.create-bitstream = true
+#core.authorization.item-admin.delete-bitstream = true
+#core.authorization.item-admin.cc-license = true
+
+
+#### Restricted item visibilty settings ###
+# By default RSS feeds, OAI-PMH and subscription emails will include ALL items
+# regardless of permissions set on them.
+#
+# If you wish to only expose items through these channels where the ANONYMOUS
+# user is granted READ permission, then set the following options to false
+#
+# Warning: In large repositories, setting harvest.includerestricted.oai to false may cause
+# performance problems as all items will need to have their authorization permissions checked,
+# but because DSpace has not implemented resumption tokens in ListIdentifiers, ALL items will
+# need checking whenever a ListIdentifers request is made.
+#
+#harvest.includerestricted.rss = true
+#harvest.includerestricted.oai = true
+#harvest.includerestricted.subscription = true
+
+
+#### Proxy Settings ######
+# uncomment and specify both properties if proxy server required
+# proxy server for external http requests - use regular hostname without port number
+#http.proxy.host =
+
+# port number of proxy server
+#http.proxy.port =
+
+
+#### Media Filter / Format Filter plugins (through PluginManager) ####
+# Media/Format Filters help to full-text index content or
+# perform automated format conversions
+
+#Names of the enabled MediaFilter or FormatFilter plugins
+filter.plugins = PDF Text Extractor, HTML Text Extractor, \
+                                 PowerPoint Text Extractor, \
+                                 Word Text Extractor, JPEG Thumbnail
+# [To enable Branded Preview]: remove last line above, and uncomment 2 lines below
+#                        Word Text Extractor, JPEG Thumbnail, \
+#                        Branded Preview JPEG
+
+#Assign 'human-understandable' names to each filter
+plugin.named.org.dspace.app.mediafilter.FormatFilter = \
+  org.dspace.app.mediafilter.PDFFilter = PDF Text Extractor, \
+  org.dspace.app.mediafilter.HTMLFilter = HTML Text Extractor, \
+  org.dspace.app.mediafilter.WordFilter = Word Text Extractor, \
+  org.dspace.app.mediafilter.PowerPointFilter = PowerPoint Text Extractor, \
+  org.dspace.app.mediafilter.JPEGFilter = JPEG Thumbnail, \
+  org.dspace.app.mediafilter.BrandedPreviewJPEGFilter = Branded Preview JPEG
+
+#Configure each filter's input format(s)
+filter.org.dspace.app.mediafilter.PDFFilter.inputFormats = Adobe PDF
+filter.org.dspace.app.mediafilter.HTMLFilter.inputFormats = HTML, Text
+filter.org.dspace.app.mediafilter.WordFilter.inputFormats = Microsoft Word
+filter.org.dspace.app.mediafilter.PowerPointFilter.inputFormats = Microsoft Powerpoint, Microsoft Powerpoint XML
+filter.org.dspace.app.mediafilter.JPEGFilter.inputFormats = BMP, GIF, JPEG, image/pngons in his community
+#core.authorization.community-admin.item.delete = true
+#core.authorization.community-admin.item.withdraw = true
+#core.authorization.community-admin.item.reinstatiate = true
+#core.authorization.community-admin.item.policies = true
+# also bundle...
+#core.authorization.community-admin.item.create-bitstream = true
+#core.authorization.community-admin.item.delete-bitstream = true
+#core.authorization.community-admin.item-admin.cc-license = true
+
+# COLLECTION ADMIN
+#core.authorization.collection-admin.policies = true
+#core.authorization.collection-admin.template-item = true
+#core.authorization.collection-admin.submitters = true
+#core.authorization.collection-admin.workflows = true
+#core.authorization.collection-admin.admin-group = true
+# item owned by his collection
+#core.authorization.collection-admin.item.delete = true
+#core.authorization.collection-admin.item.withdraw = true
+#core.authorization.collection-admin.item.reinstatiate = true
+#core.authorization.collection-admin.item.policies = true
+# also bundle...
+#core.authorization.collection-admin.item.create-bitstream = true
+#core.authorization.collection-admin.item.delete-bitstream = true
+#core.authorization.collection-admin.item-admin.cc-license = true
+
+# ITEM ADMIN
+#core.authorization.item-admin.policies = true
+# also bundle...
+#core.authorization.item-admin.create-bitstream = true
+#core.authorization.item-admin.delete-bitstream = true
+#core.authorization.item-admin.cc-license = true
+
+
+#### Restricted item visibilty settings ###
+# By default RSS feeds, OAI-PMH and subscription emails will include ALL items
+# regardless of permissions set on them.
+#
+# If you wish to only expose items through these channels where the ANONYMOUS
+# user is granted READ permission, then set the following options to false
+#
+# Warning: In large repositories, setting harvest.includerestricted.oai to false may cause
+# performance problems as all items will need to have their authorization permissions checked,
+# but because DSpace has not implemented resumption tokens in ListIdentifiers, ALL items will
+# need checking whenever a ListIdentifers request is made.
+#
+#harvest.includerestricted.rss = true
+#harvest.includerestricted.oai = true
+#harvest.includerestricted.subscription = true
+
+
+#### Proxy Settings ######
+# uncomment and specify both properties if proxy server required
+# proxy server for external http requests - use regular hostname without port number
+#http.proxy.host =
+
+# port number of proxy server
+#http.proxy.port =
+
+
+#### Media Filter / Format Filter plugins (through PluginManager) ####
+# Media/Format Filters help to full-text index content or
+# perform automated format conversions
+
+#Names of the enabled MediaFilter or FormatFilter plugins
+filter.plugins = PDF Text Extractor, HTML Text Extractor, \
+                                 PowerPoint Text Extractor, \
+                                 Word Text Extractor, JPEG Thumbnail
+# [To enable Branded Preview]: remove last line above, and uncomment 2 lines below
+#                        Word Text Extractor, JPEG Thumbnail, \
+#                        Branded Preview JPEG
+
+#Assign 'human-understandable' names to each filter
+plugin.named.org.dspace.app.mediafilter.FormatFilter = \
+  org.dspace.app.mediafilter.PDFFilter = PDF Text Extractor, \
+  org.dspace.app.mediafilter.HTMLFilter = HTML Text Extractor, \
+  org.dspace.app.mediafilter.WordFilter = Word Text Extractor, \
+  org.dspace.app.mediafilter.PowerPointFilter = PowerPoint Text Extractor, \
+  org.dspace.app.mediafilter.JPEGFilter = JPEG Thumbnail, \
+  org.dspace.app.mediafilter.BrandedPreviewJPEGFilter = Branded Preview JPEG
+
+#Configure each filter's input format(s)
+filter.org.dspace.app.mediafilter.PDFFilter.inputFormats = Adobe PDF
+filter.org.dspace.app.mediafilter.HTMLFilter.inputFormats = HTML, Text
+filter.org.dspace.app.mediafilter.WordFilter.inputFormats = Microsoft Word
+filter.org.dspace.app.mediafilter.PowerPointFilter.inputFormats = Microsoft Powerpoint, Microsoft Powerpoint XML
+filter.org.dspace.app.mediafilter.JPEGFilter.inputFormats = BMP, GIF, JPEG, image/png

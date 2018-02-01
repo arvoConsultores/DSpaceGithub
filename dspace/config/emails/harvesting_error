@@ -1,4 +1,4 @@
-# E-mail sent to designated address when a harvest process fails
+# Email enviado a la dirección asignada cuando un proceso de recolección falla
 #
 # Parameters: {0} Collection id
 #             {1} Date & time
@@ -8,13 +8,13 @@
 #
 # See org.dspace.core.Email for information on the format of this file.
 #
-Subject: DSpace: Harvesting Error
-Collection {0} failed on harvest:
+Subject: DSpace: Error en la recolección
+La colección {0} ha fallado en la recolección:
 
-Date:       	{1}
-Status Flag: 	{2}
+Fecha:       	{1}
+Estado de la alerta: 	{2}
 
 {3}
 
-Exception:
+Excepción producida:
 {4}

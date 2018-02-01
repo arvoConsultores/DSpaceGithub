@@ -1,4 +1,4 @@
-# Rejection email message
+# Email de aviso de rechazo
 #
 # {0}  Title of submission
 # {1}  Name of collection
@@ -6,18 +6,18 @@
 # {3}  Reason for the rejection
 # {4}  Link to 'My DSpace' page
 #
-Subject: DSpace: Submission Rejected
+Subject: DSpace: Envío rechazado
 
-You submitted: {0}
+Ha enviado: {0}
 
-To collection: {1}
+A la colección: {1}
 
-Your submission has been rejected by {2}
-with the following explanation:
+Su envío ha sido rechazado por {2}
+con la siguiente justificación:
 
 {3}
 
-Your submission has not been deleted.  You can access it from your
-"My DSpace" page: {4}
+Su envío no ha sido borrado. Puede acceder a él desde su página personal
+"My DSpace": {4}
 
-DSpace
+Biblioteca de la Universidad Francisco de Vitoria

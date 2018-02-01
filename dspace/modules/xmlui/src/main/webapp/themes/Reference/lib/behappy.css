@@ -1,0 +1,464 @@
+HTML
+{
+	background: url('../images/page-bg.jpg') no-repeat center center;
+	min-height: 100%;
+	min-width: 100%;
+	background-size: cover;
+	background-attachment: fixed;
+}
+.author_copyright
+{
+	/*[disabled]display:none;*/
+	position: absolute;
+	right: 30px;
+	top: 10px;
+}
+DIV.author_copyright A:hover
+{
+	color: #93B45A !important;
+}
+BODY
+{
+	/*[disabled]background:#F0F0F0;*/
+}
+A
+{
+	color: #002E62 !important;
+	text-decoration: none;
+}
+A:hover
+{
+	text-decoration: none;
+	color: #727272;
+}
+DIV#ds-main
+{
+	position: relative;
+	margin-top: 5px;
+	width: 960px;
+	/*[disabled]min-height:1200px;*/
+	color: #555555;
+	background-color: transparent !important;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	padding: 0;
+}
+DIV#ds-header
+{
+	width: 100%;
+	height: 190px !important;
+	/*[disabled]border:1px solid #F0F0F0;*/
+	border: 0;
+	padding: 0px;
+	/*[disabled]background:url(../images/header01.jpg) no-repeat top;*/
+	background: url(../images/header03.png) no-repeat top;
+	/*[disabled]background:#F0F0F0;*/
+	margin-bottom: 10px;
+}
+DIV#ds-header A SPAN#ds-header-logo
+{
+	width: 235px;
+	height: 115px;
+	display: block;
+	float: none;
+	position: relative;
+	top: 16px;
+	background-image: url("../images/header-logo-biblio-blue.jpg");
+	background-repeat: no-repeat;
+	background-position: 0% 0%;
+	color: inherit;
+	background-color: #012964;	
+}
+DIV#ds-user-box
+{
+	width: 300px;
+	position: absolute;
+	top: 65px;
+	right: 5px !important;
+	left: inherit;
+	text-align: right;
+}
+DIV#ds-user-box A
+{
+	color: #767676;
+	font-size: 14px;
+	background: #F0F0F0;
+	border: 1px solid #CCC;
+	padding: 5px 10px;
+}
+UL#ds-trail
+{
+	position: relative;
+	top: 40px;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 3px 3px 3px 20px;
+	margin-left: 0;
+	color: inherit;
+	background: #F0F0F0;
+	border-top: 0 !important;
+	line-height: 30px;
+}
+LI.ds-trail-link
+{
+	overflow: hidden;
+	display: inline;
+	background-image: url("../images/trail.bmp");
+	background-repeat: no-repeat;
+	background-position: 0% 60%;
+	padding-left: 16px;
+	margin-top: 2px;
+	margin-left: 5px;
+	font-weight: 200;
+	max-width: 400px;
+	line-height: 20px;
+}
+DIV#ds-body
+{
+	position: relative;
+	float: right;
+	width: 660px;
+	clear: right;
+	color: inherit;
+	background-color: #FFF;
+	border: 0;
+	/*[disabled]border-right:5px solid #B8B8B8;*/
+	margin: 0 0px 0px;
+	padding-bottom: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
+	min-height: 500px !important;
+}
+DIV#ds-options
+{
+	position: relative;
+	float: left;
+	width: 230px;
+	color: inherit;
+	background-color: #FFFFFF;
+	margin: 0px;
+	padding: 10px 20px 20px;
+	font-size: 95%;
+	border: 0 !important;
+	border-right: 5px solid #B8B8B8 !important;
+}
+DIV.ds-option-set
+{
+	padding: 30px 2px 3px;
+	width: 100%;
+	margin: -3px 0px 0px;
+	color: inherit;
+	background-color: #FFF;
+	border: 0;
+}
+DIV#ds-feed-option A
+{
+	padding: 0px 0px 2px 20px;
+	margin: 0 0 0 -10px;
+}
+DIV#ds-options UL
+{
+	margin: 8px 0px 10px;
+	padding: 0px;
+	list-style: none;
+}
+DIV#ds-options LI
+{
+	margin-left: 15px;
+	margin-bottom: 6px;
+	padding: 0px;
+	color: inherit;
+	background-color: inherit;
+}
+DIV#ds-options H3
+{
+	position: relative;
+	top: 22px;
+	left: 5px;
+	margin: 0 2px 0 0;
+	padding: 0px 0px 5px;
+	color: #002E62;
+	background-color: #FFF;
+	border-bottom: 1px solid #D5D5D5;
+}
+DIV#ds-options H4
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	color: inherit;
+	background-color: inherit;
+}
+DIV#ds-body H1
+{
+	font-size: 1.3em !important;
+	padding: 5px 10px 5px 5px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	color: #DDDDDD;
+	background: #002E62;
+	text-align: right;
+}
+DIV#ds-body H2
+{
+	font-size: 1.3em;
+	padding: 6px 0;
+	margin-bottom: 0px;
+	color: #898989;
+	background-color: inherit;
+	font-weight: bolder;
+}
+DIV#ds-footer
+{
+	position: relative;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 15px 0 0;
+	height: 139px;
+	float: left;
+	width: 100%;
+	border: 1px solid #D4D4D4 !important;
+	border: 0;
+	background: #FFF;
+}
+SPAN#ds-footer-logo
+{
+	float: left;
+	clear: both;
+	height: 130px;
+	width: 300px;
+	background-image: url("../images/header-logo-biblio-blue.jpg");
+	background-repeat: no-repeat;
+	background-position: 20% 30%;
+	color: inherit;
+	background-color: #FFFFFF;
+}
+DIV#ds-footer-links
+{
+	position: absolute;
+	top: 57px;
+	right: 0px;
+	padding-right: 10px;
+	text-align: right;
+	font-size: smaller;
+}
+DIV#ds-footer P
+{
+	width: 450px;
+	position: absolute;
+	top: 0;
+	right: 0px;
+	text-align: right;
+	padding: 15px 10px 0 20px;
+}
+DIV.ds-static-div
+{
+	border: 0 !important;
+	clear: none !important;
+}
+#file_news_div_news
+{
+	margin-bottom: 18px;
+}
+#file_news_div_news:after
+{
+	/*[disabled]content:url('../images/subheader02.jpg');*/
+}
+#file_news_div_news P#title
+{
+	font-size: 1.3em !important;
+	padding: 5px 5px 5px 10px;
+	margin: 0 0 10px;
+	/*[disabled]color:#002E62;*/
+	/*[disabled]border-bottom:1px solid #DDD;*/
+	color: #DDDDDD;
+	background: #002E62;
+	text-align: left;
+}
+DIV + #library, DIV + #more
+{
+	width: 320px;
+	height: 170px;
+}
+#file_news_div_news #welcome
+{
+	margin: 15px 5px 10px;
+	height: 230px;
+	text-align: justify;
+}
+#file_news_div_news #welcome P
+{
+	margin: 0 0 15px;
+}
+#file_news_div_news #welcome:after
+{
+	content: url('../images/subheader02.jpg');
+}
+#file_news_div_news #library
+{
+	margin: 0 0 20px;
+	float: left;
+}
+#file_news_div_news #library A
+{
+	display: list-item;
+	list-style: disc inside;
+	margin: 0 0 0 30px;
+	padding: 10px;
+}
+#file_news_div_news #library:before
+{
+	/*[disabled]content:url('../images/di_logo.jpg');*/
+}
+#file_news_div_news #more
+{
+	margin: 0 10px 20px 0;
+	float: right;
+}
+#file_news_div_news #more A
+{
+	display: list-item;
+	list-style: disc inside;
+	margin: 0 0 0 30px;
+	padding: 10px;
+}
+#file_news_div_news #more:before
+{
+	/*[disabled]content:url('../images/di_logo.jpg');*/
+}
+.primary
+{
+}
+UL.ds-artifact-list
+{
+	border: 2px solid #CCC;
+	padding: 0px;
+	list-style-type: none;
+	margin: 0px;
+	float: left;
+	width: 655px;
+}
+UL.ds-artifact-list LI.odd
+{
+	color: inherit;
+	background-color: rgb(249, 249, 248);
+}
+UL.ds-artifact-list LI.even
+{
+	color: inherit;
+	background-color: inherit;
+}
+TR.ds-table-row.odd
+{
+	color: inherit;
+	background-color: rgb(249, 249, 248);
+}
+TR.ds-table-row.even
+{
+	color: inherit;
+	background-color: inherit;
+}
+DIV.pagination
+{
+	position: relative;
+	padding: 0px;
+	color: inherit;
+	background-color: inherit;
+	border: 1px solid #CCC;
+	margin: 2px 0px 5px 1px;
+}
+/*Row-level hierarchy*/
+TABLE
+{
+	clear: both;
+	border-spacing: 0px;
+	border: 1px solid #CCC;
+	width: 100%;
+}
+TR.ds-table-header-row
+{
+	color: inherit;
+	background-color: rgb(220, 220, 220);
+}
+FIELDSET.ds-form-list
+{
+	border: 2px solid #CCC;
+	padding: 0;
+	color: inherit;
+	background-color: inherit;
+	margin-left: 0;
+	margin-right: 0;
+}
+FORM.ds-interactive-div LI.ds-form-item
+{
+	display: block;
+	padding: 5px 0;
+	width: 100%;
+}
+FIELDSET.ds-form-list LEGEND
+{
+	color: #002E62 !important;
+	background-color: inherit;
+	font-size: 115%;
+	font-weight: bolder;
+	margin-left: 10px;
+}
+FORM.ds-interactive-div LI.odd
+{
+	color: inherit;
+	background-color: rgb(240, 240, 240) !important;
+}
+FORM.ds-interactive-div LI.even
+{
+	color: inherit;
+	background-color: #FFF !important;
+}
+FORM.ds-interactive-div LI.ds-form-item.last
+{
+	border-top: 0;
+	color: inherit;
+	background-color: #EEE;
+}
+FORM.ds-interactive-div.primary
+{
+	float: none;
+	clear: both;
+	padding: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+UL.ds-progress-list LI
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	background-color: rgb(243, 243, 243);
+	border: 1px solid rgb(240, 240, 210);
+	color: inherit;
+	overflow: hidden;
+	display: inline;
+	padding: 4px 3px;
+	margin-top: 2px;
+	margin-left: 3px;
+	max-width: 400px;
+	line-height: 20px;
+}
+UL.ds-progress-list LI.disabled.button INPUT.ds-button-field
+{
+	color: rgb(184, 184, 184);
+}
+UL.ds-progress-list LI.current
+{
+	color: rgb(56, 199, 0);
+	background-color: inherit;
+	border-color: rgb(216, 245, 216);
+}
+UL.ds-progress-list LI.arrow
+{
+	border: none;
+	background: none;
+	font-size: 120%;
+	font-weight: normal;
+	margin-left: 0px;
+	margin-right: 0px;
+	color: #002E62;
+}

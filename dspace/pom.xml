@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.dspace</groupId>
         <artifactId>dspace-parent</artifactId>
-        <version>1.8.4-SNAPSHOT</version>
+        <version>1.8.4</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -144,6 +144,28 @@
             </dependencies>
         </profile>
 
+		<profile>
+         <id>dspace-oaiextended-api</id>
+         <activation>
+            <file>
+               <exists>../dspace-oaiextended-api/pom.xml</exists>
+            </file>
+         </activation>
+         <modules>
+            <module>../dspace-oaiextended-api</module>
+         </modules>
+      </profile>
+      <profile>
+         <id>dspace-oaiextended-webapp</id>
+         <activation>
+            <file>
+               <exists>../dspace-oaiextended-webapp/pom.xml</exists>
+            </file>
+         </activation>
+         <modules>
+            <module>../dspace-oaiextended-webapp</module>
+         </modules>
+      </profile>
         <!--
            Using xpdf filters requires the inclusion
            Of Sun dependencies these are not redistributable

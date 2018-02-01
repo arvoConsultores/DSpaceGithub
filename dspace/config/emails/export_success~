@@ -1,0 +1,17 @@
+﻿# Email sent to DSpace users when they successfully export an item or collection.
+#
+# Parameters: {0} is expanded to a special URL
+#             {1} configurable time (hours) an export file will be kept
+#
+# See org.dspace.core.Email for information on the format of this file.
+#
+Subject: DSpace - El objeto cuya exportación se ha solicitado está listo para su descarga
+El objeto cuya exportación del repositorio se ha solicitado, está listo para su descarga.
+
+Debe descargar el fichero comprimido utilizando el siguiente enlace:
+{0}
+
+Este fichero estará disponible al menos durante {1} hora.  
+
+Biblioteca de la Universidad Francisco de Vitoria
+

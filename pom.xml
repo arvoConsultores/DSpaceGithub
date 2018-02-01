@@ -3,7 +3,7 @@
    <groupId>org.dspace</groupId>
    <artifactId>dspace-parent</artifactId>
    <packaging>pom</packaging>
-   <version>1.8.4-SNAPSHOT</version>
+   <version>1.8.4</version>
    <name>DSpace Parent Project</name>
    <url>http://projects.dspace.org</url>
 
@@ -242,7 +242,7 @@ Individual Maven projects may choose to override these defaults. -->
         <!--
            Builds JSPUI WAR for DSpace
         -->
-        <profile>
+  <!--      <profile>
 
             <id>dspace-jspui</id>
             <activation>
@@ -251,7 +251,7 @@ Individual Maven projects may choose to override these defaults. -->
             <modules>
                 <module>dspace-jspui</module>
             </modules>
-        </profile>
+        </profile>-->
 
 
         <!--
@@ -266,7 +266,7 @@ Individual Maven projects may choose to override these defaults. -->
                 <module>dspace-sword</module>
             </modules>
         </profile>
-
+	
         <!--
            Builds SWORDv2 WAR for DSpace
         -->
@@ -279,11 +279,11 @@ Individual Maven projects may choose to override these defaults. -->
                 <module>dspace-swordv2</module>
             </modules>
         </profile>
-
+		
         <!--
            Builds DSpace Sword Client from local source if present
         -->
-        <profile>
+         <profile>
             <id>dspace-sword-client</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -309,7 +309,7 @@ Individual Maven projects may choose to override these defaults. -->
         <!--
            Builds LNI WAR for DSpace
         -->
-        <profile>
+<!--        <profile>
             <id>dspace-lni</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -317,9 +317,17 @@ Individual Maven projects may choose to override these defaults. -->
             <modules>
                 <module>dspace-lni</module>
             </modules>
+        </profile>-->
+
+		<profile>
+            <id>dspace-oaiextended</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>dspace-oaiextended</module>
+            </modules>
         </profile>
-
-
       <!--
           The 'release' profile is used by the 'maven-release-plugin' (see above)
           to actually perform a DSpace software release to Maven central.
@@ -333,13 +341,14 @@ Individual Maven projects may choose to override these defaults. -->
             <module>dspace-api</module>
             <module>dspace-stats</module>
             <module>dspace-discovery</module>
-            <module>dspace-jspui</module>
+            <!--<module>dspace-jspui</module>-->
             <module>dspace-xmlui</module>
-            <module>dspace-lni</module>
+<!--            <module>dspace-lni</module>-->
             <module>dspace-oai</module>
             <module>dspace-sword</module>
             <module>dspace-swordv2</module>
             <module>dspace-sword-client</module>
+            <module>dspace-oaiextended</module>
          </modules>
       </profile>
 
@@ -439,6 +448,17 @@ Individual Maven projects may choose to override these defaults. -->
               <version>${project.version}</version>
               <type>war</type>
           </dependency>
+           <dependency>
+            <groupId>org.dspace</groupId>
+            <artifactId>dspace-oaiextended-api</artifactId>
+            <version>1.8.4</version>
+         </dependency>
+         <dependency>
+            <groupId>org.dspace</groupId>
+            <artifactId>dspace-oaiextended-webapp</artifactId>
+            <version>1.8.4</version>
+            <type>war</type>
+         </dependency>
            <dependency>
               <groupId>org.dspace</groupId>
               <artifactId>dspace-sword-client-api</artifactId>
@@ -636,7 +656,7 @@ Individual Maven projects may choose to override these defaults. -->
          <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>oaicat</artifactId>
-            <version>1.5.48</version>
+            <version>1.5.62-arvo</version>
          </dependency>
          <dependency>
             <groupId>org.dspace.dependencies</groupId>
@@ -1165,8 +1185,13 @@ Individual Maven projects may choose to override these defaults. -->
       <repository>
          <id>sonatype-releases</id>
          <name>Sonatype Releases Repository</name>
-         <url>http://oss.sonatype.org/content/repositories/releases/</url>
+         <url>https://oss.sonatype.org/content/repositories/releases/</url>
       </repository>
+      <repository>
+            <id>arvo-public</id>
+            <name>Arvo Public Repository</name>
+            <url>http://85.152.11.156:7153/nexus/content/groups/public/</url>
+        </repository>
    </repositories>
    
 </project>

@@ -13,8 +13,8 @@
         This is only fit for a simple smoke test of the XSLT-based
         crosswalk plugin, do not use it for anthing more serious.
 
- Revision: $Revision$
- Date:     $Date$
+ Revision: $Revision: 3705 $
+ Date:     $Date: 2009-04-11 12:02:24 -0500 (Sat, 11 Apr 2009) $
 
  -->
 

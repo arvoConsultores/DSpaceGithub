@@ -1,0 +1,24 @@
+# Email de aviso de tarea pendiente
+#
+# {0}  Title of submission
+# {1}  Name of collection
+# {2}  submitter's name
+# {3}  Description of task
+# {4}  link to 'my DSpace' page 
+#
+Subject: DSpace: Tiene una nueva tarea
+
+Un nuevo item ha sido enviado:
+
+Título:        {0}
+Colección:   {1}
+Enviado por: {2}
+
+{3}
+
+Para asumir esta tarea, por favor, visite su 
+página personal: "My DSpace":  {4}
+
+¡Muchas gracias!
+
+Biblioteca de la Universidad Francisco de Vitoria
