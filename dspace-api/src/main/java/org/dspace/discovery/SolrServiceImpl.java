@@ -16,12 +16,16 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
@@ -152,7 +156,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                             .setQuery(RESOURCE_TYPE_FIELD + ":2 AND " + RESOURCE_ID_FIELD + ":1");
                     // Only return obj identifier fields in result doc
                     solrQuery.setFields(RESOURCE_TYPE_FIELD, RESOURCE_ID_FIELD);
-                    solr.query(solrQuery);
+                    solr.query(solrQuery, SolrRequest.METHOD.POST);
 
                     // As long as Solr initialized, check with DatabaseUtils to see
                     // if a reindex is in order. If so, reindex everything
@@ -457,32 +461,41 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                 // Query for all indexed Items, Collections and Communities,
                 // returning just their handle
                 query.setFields(HANDLE_FIELD);
+                query.addSort(HANDLE_FIELD, SolrQuery.ORDER.asc);
                 query.setQuery(RESOURCE_TYPE_FIELD + ":[2 TO 4]");
-                QueryResponse rsp = getSolr().query(query);
-                SolrDocumentList docs = rsp.getResults();
 
-                Iterator iter = docs.iterator();
-                while (iter.hasNext())
-                {
+                // Get the total amount of results
+                QueryResponse totalResponse = getSolr().query(query);
+                long total = totalResponse.getResults().getNumFound();
 
-                 SolrDocument doc = (SolrDocument) iter.next();
+                int start = 0;
+                int batch = 100;
 
-                String handle = (String) doc.getFieldValue(HANDLE_FIELD);
+                query.setRows(batch);
+                while (start < total) {
+                    query.setStart(start);
+                    QueryResponse rsp = getSolr().query(query, SolrRequest.METHOD.POST);
+                    SolrDocumentList docs = rsp.getResults();
 
-                DSpaceObject o = handleService.resolveToObject(context, handle);
+                    for (SolrDocument doc : docs) {
+                        String handle = (String) doc.getFieldValue(HANDLE_FIELD);
 
-                if (o == null)
-                {
-                    log.info("Deleting: " + handle);
-                    /*
-                          * Use IndexWriter to delete, its easier to manage
-                          * write.lock
-                          */
-                    unIndexContent(context, handle);
-                } else {
-                    log.debug("Keeping: " + handle);
+                        DSpaceObject o = handleService.resolveToObject(context, handle);
+
+                        if (o == null) {
+                            log.info("Deleting: " + handle);
+                            /*
+                             * Use IndexWriter to delete, its easier to manage
+                             * write.lock
+                             */
+                            unIndexContent(context, handle);
+                        } else {
+                            log.debug("Keeping: " + handle);
+                        }
+                    }
+
+                    start += batch;
                 }
-            }
             }
         } catch(Exception e)
         {
@@ -534,7 +547,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             SolrQuery solrQuery = new SolrQuery();
             solrQuery.set("spellcheck", true);
             solrQuery.set(SpellingParams.SPELLCHECK_BUILD, true);
-            getSolr().query(solrQuery);
+            getSolr().query(solrQuery, SolrRequest.METHOD.POST);
         }catch (SolrServerException e)
         {
             //Make sure to also log the exception since this command is usually run from a crontab.
@@ -617,7 +630,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             {
                 return false;
             }
-            rsp = getSolr().query(query);
+            rsp = getSolr().query(query, SolrRequest.METHOD.POST);
         } catch (SolrServerException e)
         {
             throw new SearchServiceException(e.getMessage(),e);
@@ -1386,11 +1399,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             if(values != null && values.size() > 0 && values.get(0) != null && values.get(0).getValue() != null)
             {
                 // group on parent
-                String handlePrefix = ConfigurationManager.getProperty("handle.canonical.prefix");
-                if (handlePrefix == null || handlePrefix.length() == 0)
-                {
-                    handlePrefix = "http://hdl.handle.net/";
-                }
+                String handlePrefix = handleService.getCanonicalPrefix();
 
                 doc.addField("publication_grp",values.get(0).getValue().replaceFirst(handlePrefix, "") );
 
@@ -1607,7 +1616,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             SolrQuery solrQuery = resolveToSolrQuery(context, discoveryQuery, includeUnDiscoverable);
 
 
-            QueryResponse queryResponse = getSolr().query(solrQuery);
+            QueryResponse queryResponse = getSolr().query(solrQuery, SolrRequest.METHOD.POST);
             return retrieveResult(context, discoveryQuery, queryResponse);
 
         } catch (Exception e)
@@ -1793,12 +1802,35 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         solrQuery.setParam(CommonParams.WT, "json");
 
         StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append(getSolr().getBaseURL()).append("/select?");
-        urlBuilder.append(solrQuery.toString());
+        //urlBuilder.append(getSolr().getBaseURL()).append("/select?");
+        //urlBuilder.append(solrQuery.toString());
+
+        // New url without any query params appended
+        urlBuilder.append(getSolr().getBaseURL()).append("/select");
+
+        // Post setup
+        NamedList<Object> solrParameters = solrQuery.toNamedList();
+        List<NameValuePair> postParameters = new ArrayList<>();
+        for (Map.Entry<String, Object> solrParameter : solrParameters) {
+            if (solrParameter.getValue() instanceof String[]) {
+                // Multi-valued solr parameter
+                for(String val : (String[])solrParameter.getValue()) {
+                    postParameters.add(new BasicNameValuePair(solrParameter.getKey(), val));
+                }
+
+            }
+            else if(solrParameter.getValue() instanceof String) {
+                postParameters.add(new BasicNameValuePair(solrParameter.getKey(), solrParameter.getValue().toString()));
+            }
+            else {
+                log.warn("Search parameters contain non-string value: " + solrParameter.getValue().toString());
+            }
+        }
 
         try {
-            HttpGet get = new HttpGet(urlBuilder.toString());
-            HttpResponse response = new DefaultHttpClient().execute(get);
+            HttpPost post = new HttpPost(urlBuilder.toString());
+            post.setEntity(new UrlEncodedFormEntity(postParameters));
+            HttpResponse response = new DefaultHttpClient().execute(post);
             return response.getEntity().getContent();
 
         } catch (Exception e)
@@ -1970,17 +2002,12 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         }
         HttpHost hostURL = (HttpHost)(getSolr().getHttpClient().getParams().getParameter(ClientPNames.DEFAULT_HOST));
 
-        HttpGet method = new HttpGet(hostURL.toHostString() + "");
-        try
-        {
-            URI uri = new URIBuilder(method.getURI()).addParameter("q",query.toString()).build();
-        }
-        catch (URISyntaxException e)
-        {
-            throw new SearchServiceException(e);
-        }
+        HttpPost post = new HttpPost(hostURL.toHostString());
+        List<NameValuePair> postParameters = new ArrayList<>();
+        postParameters.add(new BasicNameValuePair("q",query.toString()));
+        post.setEntity(new UrlEncodedFormEntity(postParameters));
 
-        HttpResponse response = getSolr().getHttpClient().execute(method);
+        HttpResponse response = getSolr().getHttpClient().execute(post);
 
         return response.getEntity().getContent();
     }
@@ -2014,7 +2041,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             {
                 solrQuery.addFilterQuery(filterquery);
             }
-            QueryResponse rsp = getSolr().query(solrQuery);
+            QueryResponse rsp = getSolr().query(solrQuery, SolrRequest.METHOD.POST);
             SolrDocumentList docs = rsp.getResults();
 
             Iterator iter = docs.iterator();
@@ -2089,7 +2116,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                 if(!value.matches("\\[.*TO.*\\]"))
                 {
                     value = ClientUtils.escapeQueryChars(value);
-                    filterQuery.append("(").append(value).append(")");
+                    filterQuery.append("\"").append(value).append("\"");
                 }
                 else
                 {
@@ -2111,7 +2138,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         try{
             SolrQuery solrQuery = new SolrQuery();
             //Set the query to handle since this is unique
-            solrQuery.setQuery(HANDLE_FIELD + ": " + item.getHandle());
+            solrQuery.setQuery(HANDLE_FIELD + ":" + item.getHandle());
             //Only return obj identifier fields in result doc
             solrQuery.setFields(HANDLE_FIELD, RESOURCE_TYPE_FIELD, RESOURCE_ID_FIELD);
             //Add the more like this parameters !
@@ -2137,7 +2164,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             {
                 return Collections.emptyList();
             }
-            QueryResponse rsp = getSolr().query(solrQuery);
+            QueryResponse rsp = getSolr().query(solrQuery, SolrRequest.METHOD.POST);
             NamedList mltResults = (NamedList) rsp.getResponse().get("moreLikeThis");
             if(mltResults != null && mltResults.get(item.getType() + "-" + item.getID()) != null)
             {

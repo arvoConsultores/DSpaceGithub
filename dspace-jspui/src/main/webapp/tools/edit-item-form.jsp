@@ -193,8 +193,8 @@
                  .append(contextPath).append("/tools/lookup.jsp','")
                  .append(fieldName).append("','edit_metadata','")
                  .append(fieldNameIdx).append("','").append(authorityName).append("','")
-                 .append(confidenceIndicator).append("',")
-                 .append(String.valueOf(collection.getID())).append(",")
+                 .append(confidenceIndicator).append("','")
+                 .append(String.valueOf(collection.getID())).append("',")
                  .append("false").append(",false);\"")
                  .append(" title=\"")
                  .append(LocaleSupport.getLocalizedMessage(pageContext, "jsp.tools.lookup.lookup"))
@@ -579,8 +579,8 @@
 %>
             <tr id="<%="row_" + bundles.get(i).getName() + "_" + bitstream.getID()%>">
             	<td headers="t10" class="<%= row %>RowEvenCol" align="center">
-                	<%-- <a target="_blank" href="<%= request.getContextPath() %>/retrieve/<%= bitstream.getID() %>">View</a>&nbsp;<input type="submit" name="submit_delete_bitstream_<%= key %>" value="Remove"> --%>
-					<a class="btn btn-info" target="_blank" href="<%= request.getContextPath() %>/retrieve/<%= bitstream.getID() %>"><fmt:message key="jsp.tools.general.view"/></a>&nbsp;
+                	<%-- <a target="_blank" rel="noopener" href="<%= request.getContextPath() %>/retrieve/<%= bitstream.getID() %>">View</a>&nbsp;<input type="submit" name="submit_delete_bitstream_<%= key %>" value="Remove"> --%>
+					<a class="btn btn-info" target="_blank" rel="noopener" href="<%= request.getContextPath() %>/retrieve/<%= bitstream.getID() %>"><fmt:message key="jsp.tools.general.view"/></a>&nbsp;
 				</td>
                 <% if (bundles.get(i).getName().equals("ORIGINAL"))
                    { %>

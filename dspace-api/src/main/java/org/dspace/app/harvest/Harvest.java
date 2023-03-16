@@ -7,35 +7,31 @@
  */
 package org.dspace.app.harvest;
 
+import org.apache.commons.cli.*;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Collection;
+import org.dspace.content.DSpaceObject;
+import org.dspace.content.Item;
+import org.dspace.content.factory.ContentServiceFactory;
+import org.dspace.content.service.CollectionService;
+import org.dspace.content.service.ItemService;
+import org.dspace.core.Constants;
+import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
+import org.dspace.eperson.factory.EPersonServiceFactory;
+import org.dspace.eperson.service.EPersonService;
+import org.dspace.handle.factory.HandleServiceFactory;
+import org.dspace.harvest.HarvestedCollection;
+import org.dspace.harvest.HarvestingException;
+import org.dspace.harvest.OAIHarvester;
+import org.dspace.harvest.factory.HarvestServiceFactory;
+import org.dspace.harvest.service.HarvestedCollectionService;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PosixParser;
-import org.dspace.authorize.AuthorizeException;
-import org.dspace.content.Collection;
-import org.dspace.content.DSpaceObject;
-import org.dspace.content.factory.ContentServiceFactory;
-import org.dspace.content.service.CollectionService;
-import org.dspace.content.service.ItemService;
-import org.dspace.eperson.factory.EPersonServiceFactory;
-import org.dspace.eperson.service.EPersonService;
-import org.dspace.handle.factory.HandleServiceFactory;
-import org.dspace.harvest.HarvestedCollection;
-import org.dspace.content.Item;
-import org.dspace.harvest.HarvestingException;
-import org.dspace.harvest.OAIHarvester;
-import org.dspace.core.Constants;
-import org.dspace.core.Context;
-import org.dspace.eperson.EPerson;
-import org.dspace.harvest.factory.HarvestServiceFactory;
-import org.dspace.harvest.service.HarvestedCollectionService;
 
 /**
  *  Test class for harvested collections.
@@ -60,11 +56,10 @@ public class Harvest
         options.addOption("p", "purge", false, "delete all items in the collection");
         options.addOption("r", "run", false, "run the standard harvest procedure");
         options.addOption("g", "ping", false, "test the OAI server and set");
-        options.addOption("o", "once", false, "run the harvest procedure with specified parameters");
         options.addOption("s", "setup", false, "Set the collection up for harvesting");
         options.addOption("S", "start", false, "start the harvest loop");
         options.addOption("R", "reset", false, "reset harvest status on all collections");
-        options.addOption("P", "purge", false, "purge all harvestable collections");
+        options.addOption("P", "purgeAll", false, "purge all harvestable collections");
         
 
         options.addOption("e", "eperson", true, "eperson");
@@ -91,9 +86,7 @@ public class Harvest
             HelpFormatter myhelp = new HelpFormatter();
             myhelp.printHelp("Harvest\n", options);
             System.out
-    				.println("\nPING OAI server: Harvest -g -s oai_source -i oai_set_id");
-            System.out
-					.println("RUNONCE harvest with arbitrary options: Harvest -o -e eperson -c collection -t harvest_type -a oai_source -i oai_set_id -m metadata_format");
+    				.println("\nPING OAI server: Harvest -g -a oai_source -i oai_set_id");
             System.out
                     .println("SETUP a collection for harvesting: Harvest -s -c collection -t harvest_type -a oai_source -i oai_set_id -m metadata_format");
             System.out
@@ -123,9 +116,6 @@ public class Harvest
         }
         if (line.hasOption('g')) {
             command = "ping";
-        }
-        if (line.hasOption('o')) {
-            command = "runOnce";
         }
         if (line.hasOption('S')) {
             command = "start";
@@ -162,7 +152,7 @@ public class Harvest
 
         // Instantiate our class
         Harvest harvester = new Harvest();
-        harvester.context = new Context();
+        harvester.context = new Context(Context.Mode.BATCH_EDIT);
         
         
         // Check our options
@@ -205,6 +195,8 @@ public class Harvest
                 System.out.println(" (run with -h flag for details)");
                 System.exit(1);
             }
+            
+            System.out.println("Starting to purge all harvesting collections");
         	
         	List<HarvestedCollection> harvestedCollections = harvestedCollectionService.findAll(context);
 	    	for (HarvestedCollection harvestedCollection : harvestedCollections)
@@ -264,6 +256,10 @@ public class Harvest
             }
 
             pingResponder(oaiSource, oaiSetID, metadataKey);
+        } else {
+            System.out.println("Error - your command '" + command + "' was not recoginzed properly");
+            System.out.println(" (run with -h flag for details)");
+            System.exit(1);
         }
     }
     
@@ -299,7 +295,8 @@ public class Harvest
                 // database ID
                 else
                 {
-                    System.out.println("Looking up by id: " + collectionID + ", parsed as '" + Integer.parseInt(collectionID) + "', " + "in context: " + context);
+                    // not a handle, try and treat it as an collection database UUID
+                    System.out.println("Looking up by UUID: " + collectionID + ", " + "in context: " + context);
                     targetCollection = collectionService.find(context, UUID.fromString(collectionID));
                 }
             }
@@ -375,6 +372,8 @@ public class Harvest
     			Item item = it.next();
     			System.out.println("Deleting: " + item.getHandle());
                 collectionService.removeItem(context, collection, item);
+                context.uncacheEntity(item);
+                
     			// Dispatch events every 50 items
     			if (i%50 == 0) {
     				context.dispatchEvents();

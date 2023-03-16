@@ -360,7 +360,7 @@ function submissionControl(collectionHandle, workspaceID, initStepAndPage)
         	}
         }//User clicked "<- Previous" button
         else if (cocoon.request.get(AbstractProcessingStep.PREVIOUS_BUTTON) && 
-        			(response_flag==AbstractProcessingStep.STATUS_COMPLETE || state.stepAndPage == maxStepAndPage))
+            (response_flag==AbstractProcessingStep.STATUS_COMPLETE || maxStepAndPage.equals(state.stepAndPage)))
         {  
             var stepBack = true;
 
@@ -392,7 +392,8 @@ function submissionControl(collectionHandle, workspaceID, initStepAndPage)
         	{
         		var contextPath = cocoon.request.getContextPath();
         		cocoon.redirectTo(contextPath+"/submissions",true);
-        		cocoon.exit();
+				getDSContext().complete();
+				cocoon.exit();
         	}
         	else if (!inWorkflow)
         	{
@@ -403,7 +404,7 @@ function submissionControl(collectionHandle, workspaceID, initStepAndPage)
         //User clicked on Progress Bar:
         // only check for a 'step_jump' (i.e. click on progress bar)
         // if there are no errors to be resolved
-        if(response_flag==AbstractProcessingStep.STATUS_COMPLETE || state.stepAndPage == maxStepAndPage)
+        if(response_flag==AbstractProcessingStep.STATUS_COMPLETE || maxStepAndPage.equals(state.stepAndPage))
         {
 	        var names = cocoon.request.getParameterNames();
 	        while(names.hasMoreElements())

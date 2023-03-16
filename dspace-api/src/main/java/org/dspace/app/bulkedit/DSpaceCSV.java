@@ -196,7 +196,7 @@ public class DSpaceCSV implements Serializable
             StringBuilder lineBuilder = new StringBuilder();
             String lineRead;
 
-            while (StringUtils.isNotBlank(lineRead = input.readLine()))
+            while ((lineRead = input.readLine()) != null)
             {
                 if (lineBuilder.length() > 0) {
                     // Already have a previously read value - add this line
@@ -273,8 +273,8 @@ public class DSpaceCSV implements Serializable
         ignore = new HashMap<>();
 
         // Specify default values
-        String[] defaultValues = new String[]{"dc.date.accessioned, dc.date.available, " +
-                                              "dc.date.updated, dc.description.provenance"};
+        String[] defaultValues = new String[]{"dc.date.accessioned", "dc.date.available", 
+                                              "dc.date.updated", "dc.description.provenance"};
         String[] toIgnoreArray = DSpaceServicesFactory.getInstance().getConfigurationService().getArrayProperty("bulkedit.ignore-on-export", defaultValues);
         for (String toIgnoreString : toIgnoreArray)
         {

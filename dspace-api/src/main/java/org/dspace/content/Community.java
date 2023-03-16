@@ -15,8 +15,6 @@ import org.dspace.content.service.CommunityService;
 import org.dspace.core.*;
 import org.dspace.eperson.Group;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 import org.hibernate.proxy.HibernateProxyHelper;
 
 import javax.persistence.*;
@@ -95,7 +93,7 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
         setModified();
     }
 
-    void removeSubCommunity(Community subCommunity)
+    public void removeSubCommunity(Community subCommunity)
     {
         subCommunities.remove(subCommunity);
         setModified();

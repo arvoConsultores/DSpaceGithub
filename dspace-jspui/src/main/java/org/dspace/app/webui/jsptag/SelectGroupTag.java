@@ -17,6 +17,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.dspace.eperson.Group;
+import org.dspace.core.Utils;
 
 /**
  * <P>Tag for producing an e-person select widget in a form.  Somewhat
@@ -121,13 +122,13 @@ public class SelectGroupTag extends TagSupport
 				for (int i = 0; i < groups.length; i++)
 				{
 					out.print("<option value=\"" + groups[i].getID() + "\">");
-					out.print(groups[i].getName() + " (" + groups[i].getID() + ")");
+					out.print(Utils.addEntities(groups[i].getName()) + " (" + groups[i].getID() + ")");
 					out.println("</option>");
 				}
 			}
 			
 			out.print("</select>");
-			out.print("<br/><div class=\"row container\">");
+			out.print("<br/><div class=\"col-md-12\">");
             String p = (multiple ? 
                     LocaleSupport.getLocalizedMessage(pageContext,
                             "org.dspace.app.webui.jsptag.SelectGroupTag.selectGroups")

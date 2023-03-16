@@ -175,7 +175,7 @@ public class GroupServiceImpl extends DSpaceObjectServiceImpl<Group> implements 
             return false;
 
             // special, everyone is member of group 0 (anonymous)
-        } else if (StringUtils.equals(group.getName(), Group.ANONYMOUS)) {
+        } else if (StringUtils.equals(group.getName(), Group.ANONYMOUS) || isParentOf(context, group, findByName(context, Group.ANONYMOUS))) {
             return true;
 
         } else {
@@ -190,7 +190,7 @@ public class GroupServiceImpl extends DSpaceObjectServiceImpl<Group> implements 
                 //If we have an ePerson, check we can find membership in the database
                 if(ePerson != null) {
                     //lookup eperson in normal groups and subgroups with 1 query
-                    isMember = isEPersonInGroup(context, group.getName(), ePerson);
+                    isMember = isEPersonInGroup(context, group, ePerson);
                 }
 
                 //If we did not find the group membership in the database, check the special groups.
@@ -370,7 +370,7 @@ public class GroupServiceImpl extends DSpaceObjectServiceImpl<Group> implements 
     public int searchResultCount(Context context, String groupIdentifier) throws SQLException {
         int result = 0;
         UUID uuid = UUIDUtils.fromString(groupIdentifier);
-        if(uuid == null && StringUtils.isNotBlank(groupIdentifier)) {
+        if(uuid == null) {
             //Search by group name
             result = groupDAO.countByNameLike(context, groupIdentifier);
         } else {
@@ -514,10 +514,10 @@ public class GroupServiceImpl extends DSpaceObjectServiceImpl<Group> implements 
 
 
 
-    protected boolean isEPersonInGroup(Context context, String groupName, EPerson ePerson)
+    protected boolean isEPersonInGroup(Context context, Group group, EPerson ePerson)
             throws SQLException
     {
-        return groupDAO.findByNameAndMembership(context, groupName, ePerson) != null;
+        return groupDAO.findByIdAndMembership(context, group.getID(), ePerson) != null;
     }
 
 
